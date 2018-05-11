@@ -1,63 +1,49 @@
 <template>
-  <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        poetaster-client
-      </h1>
-      <h2 class="subtitle"/>
-      <div class="links">
-        <a 
-          href="https://nuxtjs.org/" 
-          target="_blank" 
-          class="button--green">Documentation</a>
-        <a 
-          href="https://github.com/nuxt/nuxt.js" 
-          target="_blank" 
-          class="button--grey">GitHub</a>
-      </div>
+  <div>
+    <div 
+      v-for="line in poem" 
+      :key="line">
+      {{ line }}
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
 
-export default {
-  components: {
-    Logo
-  }
-};
+  const poem = [ 'THERE all the golden codgers lay, ',
+  'There the silver dew, ',
+  'And the great water sighed for love, ',
+  'And the wind sighed too. ',
+  'Man-picker Niamh leant and sighed ',
+  'By Oisin on the grass; ',
+  'There sighed amid his choir of love ',
+  'Tall pythagoras. ',
+  'plotinus came and looked about, ',
+  'The salt-flakes on his breast, ',
+  'And having stretched and yawned awhile ',
+  'Lay sighing like the rest. ',
+  'Straddling each a dolphin\'s back ',
+  'And steadied by a fin, ',
+  'Those Innocents re-live their death, ',
+  'Their wounds open again. ',
+  'The ecstatic waters laugh because ',
+  'Their cries are sweet and strange, ',
+  'Through their ancestral patterns dance, ',
+  'And the brute dolphins plunge ',
+  'Until, in some cliff-sheltered bay ',
+  'Where wades the choir of love ',
+  'Proffering its sacred laurel crowns, ',
+  'They pitch their burdens off.' ];
+
+  module.exports = {
+    data: function() {
+      return {
+        poem
+      };
+    }
+  };
+
 </script>
 
 <style>
-.container
-{
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.title
-{
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-.subtitle
-{
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.links
-{
-  padding-top: 15px;
-}
 </style>
