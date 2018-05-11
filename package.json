@@ -1,7 +1,7 @@
 {
-  "name": "poetaster",
+  "name": "poetaster-client",
   "version": "1.0.0",
-  "description": "My cat&#39;s meow Nuxt.js project",
+  "description": "Client for the poetaster project.",
   "author": "Ciaran Conners",
   "private": true,
   "scripts": {

@@ -1,6 +1,4 @@
-# poetaster
-
-> My cat&#39;s meow Nuxt.js project
+# poetaster-client
 
 ## Build Setup
 
