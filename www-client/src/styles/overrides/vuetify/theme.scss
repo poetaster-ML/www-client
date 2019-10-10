@@ -1,0 +1,18 @@
+// Any changes to a default variable must be
+// declared above the initial style import
+$font-size-root: 14px;
+
+// Required for modifying core defaults
+@import '~vuetify/src/styles/styles.sass';
+
+@import '~vuetify/src/styles/settings/_light.scss';
+
+$material-light: map-merge($material-light, (
+  'dividers': rgba(#a7d7f9, .3),
+  'text': map-merge(
+    map-get($material-light, 'text'),
+    (
+      'primary': map-get($shades, 'white'),
+    )
+  )
+));
