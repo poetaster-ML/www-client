@@ -1,0 +1,16 @@
+.nav-global {
+  &__border {
+    @include absolute-bottom-left;
+    background: rgba($light-blue, .3);
+    height: 1px;
+    width: 100%;
+  }
+
+  .v-btn {
+    &--active {
+      &:before {
+        content: none
+      }
+    }
+  }
+}

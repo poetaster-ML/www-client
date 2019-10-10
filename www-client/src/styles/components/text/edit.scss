@@ -1,0 +1,11 @@
+.text-edit {
+  .v-input__slot {
+    padding: 0 !important;
+  }
+  textarea {
+    caret-color: $black;
+    line-height: 24px;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

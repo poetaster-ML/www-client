@@ -1,0 +1,11 @@
+.text-detail {
+  .main {
+    left: 33.3333%;
+    position: absolute;
+    top: 15%;
+
+    &.text-edit {
+      width: 66.6667%;
+    }
+  }
+}

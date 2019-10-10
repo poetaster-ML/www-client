@@ -1,0 +1,14 @@
+$black: #000000;
+$blue: #1867c0;
+$light-blue: #a7d7f9;
+$light-grey: #f2f2f2;
+$red: #F44336;
+$white: #ffffff;
+
+:export {
+  blue: $blue;
+  lightBlue: $light-blue;
+  lightGrey: $light-grey;
+  red: $red;
+  white: $white;
+}

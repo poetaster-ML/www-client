@@ -1,0 +1,38 @@
+$font-size-base: 16px !default;
+
+// overrides vuetify
+$body-font-family: '';
+
+html {
+  font-size: $font-size-base;
+}
+
+@function get-rems ($px) {
+  @return $px / ($font-size-base / 1rem);
+}
+
+@mixin font-size ($px) {
+  font-size: get-rems($px);
+}
+
+@mixin font-face (
+  $name,
+  $path,
+  $weight: medium,
+  $style: normal,
+  $exts: woff woff2
+) {
+  $full-path: $ste-font-base-path + $name + '/' + $path;
+  $src: null;
+
+  @each $ext in $exts {
+      $src: append($src, url(quote($full-path + '.' + $ext)) format(quote($ext)), comma);
+  }
+
+  @font-face {
+    font-family: unquote(ste-get-font-family($name));
+    font-style: $style;
+    font-weight: ste-get-font-weight($weight);
+    src: $src;
+  }
+}
