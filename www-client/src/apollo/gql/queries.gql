@@ -1,0 +1,105 @@
+fragment pageInfo on PageInfo {
+  startCursor
+  endCursor
+  hasNextPage
+  hasPreviousPage
+}
+
+fragment textDetail on TextNode {
+  id
+  slug
+  title
+}
+
+fragment authorDetail on AuthorNode {
+  slug
+  name
+}
+
+query AuthorsIndex($first:Int, $after:String) {
+  authors(first: $first, after: $after) {
+    pageInfo { ...pageInfo }
+    edges {
+      cursor
+      node {
+        ...authorDetail
+      }
+    }
+  }
+}
+
+query AuthorDetail($first:Int, $slug:String) {
+  authors(first: $first, slug: $slug) {
+    edges {
+      node {
+        texts {
+          edges {
+            cursor
+            node {
+              ...textDetail
+            }
+          }
+        }
+        ...authorDetail
+      }
+    }
+  }
+}
+
+query TextsIndex($first:Int, $after:String) {
+  texts(first: $first, after: $after) {
+    pageInfo { ...pageInfo }
+    edges {
+      cursor
+      node {
+        id
+        slug
+        title
+        author {
+          ...authorDetail
+        }
+      }
+    }
+  }
+}
+
+query TextDetail($first:Int, $slug:String) {
+  texts(first: $first, slug: $slug) {
+    edges {
+      node {
+        author {
+          ...authorDetail
+        }
+        lines
+        raw
+        nlpDocVersions {
+          edges {
+            node {
+              sentences: value
+            }
+          }
+        }
+        ...textDetail
+      }
+    }
+  }
+}
+
+query TextsSearch($query:String) {
+  textsSearch(query: $query) {
+    pageInfo { ...pageInfo }
+    edges {
+      cursor
+      node {
+        id
+        slug
+        title
+        raw
+        highlights {
+          title
+          raw
+        }
+      }
+    }
+  }
+}

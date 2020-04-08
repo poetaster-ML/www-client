@@ -18,24 +18,32 @@ module.exports = {
 
   configureWebpack: {
     resolve: {
-      extensions: ['.js', '.vue', '.json', '.ts'],
+      extensions: ['.js', '.vue', '.json', '.ts', '.gql'],
       alias: {
         '@': src,
-        '@assets': resolve(src, 'assets'),
-        '@buttons': resolve(components, 'buttons'),
-        '@components': components,
         '@env': resolve(__dirname, 'env', process.env.NODE_ENV),
+        '@assets': resolve(src, 'assets'),
+        '@utils': resolve(src, 'utils'),
+        '@queries': resolve(src, 'apollo', 'gql', 'queries.gql'),
+        '@mutations': resolve(src, 'apollo', 'gql', 'mutations.gql'),
+        '@models': resolve(src, 'apollo', 'models'),
+        '@serializers': resolve(src, 'apollo', 'serializers'),
+        '@components': components,
+        '@views': resolve(components, 'views'),
+        '@buttons': resolve(components, 'buttons'),
         '@icons': resolve(components, 'icons'),
         '@layouts': resolve(components, 'layouts'),
-        '@models': resolve(src, 'store', 'models'),
         '@navigation': resolve(components, 'navigation'),
-        '@primitives': resolve(components, 'primitives'),
-        '@utils': resolve(src, 'utils'),
-        '@views': resolve(src, 'views')
+        '@primitives': resolve(components, 'primitives')
       }
     },
     module: {
       rules: [
+        {
+          test: /\.gql$/,
+          exclude: /node_modules/,
+          loader: 'graphql-tag/loader'
+        },
         {
           test: /\.svg$/,
           loader: 'vue-svg-loader'

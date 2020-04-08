@@ -1,5 +1,5 @@
 <template>
-  <author-list
+  <AuthorList
     v-if="authors"
     :items="authors"
   />
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { Author } from '@models';
 import { AuthorList } from '@components/author';
 export default {
   name: 'authors-bar',
@@ -19,7 +20,7 @@ export default {
   },
   props: {
     authors: {
-      type: Array
+      type: Array[Author]
     }
   }
 };

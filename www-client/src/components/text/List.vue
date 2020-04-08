@@ -1,15 +1,8 @@
 <script>
-import { List as BaseList } from '@primitives';
+import { List } from '@primitives';
 
 export default {
-  name: 'text-list',
-  extends: BaseList,
-  data () {
-    return {
-      classes: 'text-list',
-      itemRouteName: 'textDetail'
-    };
-  },
+  extends: List,
   methods: {
     itemDisplay: item => item.title
   }

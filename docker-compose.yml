@@ -1,21 +1,25 @@
 version: '3'
 services:
-    www-client:
-        build:
-            context: www-client
-            dockerfile: Dockerfile
-        volumes:
-            - ./www-client/node_modules:/app/node_modules
-            - ./www-client/public:/app/public
-            - ./www-client/src:/app/src
-            - ./www-client/tests:/app/tests
-            - ./www-client/cypress.json:/app/cypress.json
-            - ./www-client/package.json:/app/package.json
-            - ./www-client/babel.config.js:/app/babel.config.js
-            - ./www-client/vue.config.js:/app/vue.config.js
-            - ./www-client/yarn.lock:/app/yarn.lock
-        command: bash -c "yarn install && yarn serve"
-        ports:
-            - '8666:8080'
-        extra_hosts:
-            - 'local.poetaster.io:0.0.0.0'
+  www-client:
+    build:
+      context: www-client
+      dockerfile: Dockerfile
+    volumes:
+      - node_modules:/app/node_modules
+      - ./www-client/env:/app/env
+      - ./www-client/public:/app/public
+      - ./www-client/src:/app/src
+      - ./www-client/tests:/app/tests
+      - ./www-client/cypress.json:/app/cypress.json
+      - ./www-client/package.json:/app/package.json
+      - ./www-client/vue.config.js:/app/vue.config.js
+      - ./www-client/yarn.lock:/app/yarn.lock
+      - ./www-client/.eslintrc.js:/app/.eslintrc.js
+    command: ['yarn', 'serve']
+    ports:
+      - '8666:8080'
+    extra_hosts:
+      - 'local.poetaster.io:0.0.0.0'
+
+volumes:
+  node_modules:

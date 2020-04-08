@@ -2,8 +2,6 @@
   &.v-navigation-drawer {
     $self: v-navigation-drawer;
 
-    background: linear-gradient($white 5%, $light-grey);
-
     .#{ $self }__border {
       background: linear-gradient($white 5%, $light-blue);
     }

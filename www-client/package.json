@@ -14,14 +14,17 @@
     "@mdi/js": "^4.4.95",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.0",
-    "@vuex-orm/core": "^0.32.2",
-    "@vuex-orm/plugin-graphql": "https://github.com/vuex-orm/plugin-graphql.git#master",
     "core-js": "^2.6.5",
-    "graphql": "^14.5.6",
+    "d3-hierarchy": "^1.1.9",
+    "d3-selection": "^1.4.1",
+    "d3-shape": "^1.3.7",
+    "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.3",
     "graphql-tools": "^4.0.5",
-    "idlize": "^0.1.1",
-    "localforage": "^1.7.3",
+    "quill": "1.3.7",
+    "quill-delta": "4.2.1",
     "vue": "^2.6.10",
+    "vue-apollo": "^3.0.3",
     "vue-router": "^3.0.3",
     "vuetify": "^2.0.0",
     "vuex": "^3.0.1"
@@ -35,10 +38,11 @@
     "@vue/cli-service": "^3.11.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
-    "apollo-client": "^2.2.2",
-    "apollo-link": "^1.2.0",
-    "apollo-link-http": "^1.3.2",
-    "apollo-utilities": "^1.3.2",
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
+    "apollo-link": "^1.2.13",
+    "apollo-link-context": "^1.0.19",
+    "apollo-link-http": "^1.5.16",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
@@ -58,5 +62,62 @@
     "vue-cli-plugin-vuetify": "^0.6.3",
     "vue-svg-loader": "^0.12.0",
     "vue-template-compiler": "^2.6.10"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@vue/app",
+        {
+          "useBuiltIns": "entry"
+        }
+      ],
+      "@vue/babel-preset-jsx"
+    ]
+  },
+  "stylint": {
+    "extends": "stylelint-config-recommended-scss",
+    "plugins": [
+      "stylelint-order"
+    ],
+    "rules": {
+      "indentation": 2,
+      "max-nesting-depth": 4,
+      "max-empty-lines": 2,
+      "color-hex-case": "lower",
+      "declaration-colon-space-after": "always",
+      "declaration-block-semicolon-newline-after": "always",
+      "no-descending-specificity": null,
+      "order/properties-alphabetical-order": true
+    }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.vue$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ],
+    "testMatch": [
+      "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
+    ],
+    "testURL": "http://localhost/",
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ]
   }
 }

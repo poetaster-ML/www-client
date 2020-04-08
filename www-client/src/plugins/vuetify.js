@@ -5,7 +5,7 @@ import 'vuetify/dist/vuetify.min.css';
 import {
   blue,
   lightBlue,
-  white
+  lightGrey
 } from '../styles/global/colors.scss';
 
 Vue.use(Vuetify);
@@ -15,8 +15,8 @@ export default new Vuetify({
     light: true,
     themes: {
       light: {
-        primary: white,
-        secondary: lightBlue,
+        primary: lightBlue,
+        secondary: lightGrey,
         accent: blue,
         error: '#FF5252',
         info: '#2196F3',

@@ -1,9 +1,8 @@
 <script>
-import { List as BaseList } from '@primitives';
+import { List } from '@primitives';
 
 export default {
-  name: 'author-list',
-  extends: BaseList,
+  extends: List,
   data () {
     return {
       classes: 'author-list'

@@ -1,17 +1,25 @@
 <template>
-  <div class="text-edit" @dblclick.native="mainDblClick">
-    <TextTitleRead :title="text.title"/>
-    <v-textarea :value="text.raw" autoGrow fullWidth noResize/>
+  <div class='text-edit'>
+    <div v-if='annotations.length' class="lines">
+      <TextLineEdit
+        v-for="(line, idx) in text.lines"
+        :line="line"
+        :key="idx"
+      />
+    </div>
+    <TextEditor v-else :text='text'/>
   </div>
 </template>
 <script>
 import Base from './Base';
-import { TextTitleRead } from './partials';
+import { TextLineEdit } from './partials/line';
+import { TextEditor } from '@primitives';
+
 export default {
-  name: 'text-edit',
   extends: Base,
   components: {
-    TextTitleRead
+    TextEditor,
+    TextLineEdit
   }
 };
 </script>

@@ -1,31 +1,32 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawerRight"
       app
       clipped
       right
     >
-      <slot name='nav-text-tools'></slot>
+      <slot name='nav-tools'></slot>
     </v-navigation-drawer>
 
     <v-app-bar
       app
       clipped-right
       flat
-      class="nav-global"
+      class='nav-global'
     >
-      <slot name="nav-global"></slot>
-      <div class="nav-global__border"></div>
+      <slot name='nav-global'></slot>
+      <v-spacer></v-spacer>
+      <slot name='search-global'></slot>
+      <div class='nav-global__border'></div>
     </v-app-bar>
 
     <v-navigation-drawer
-      width="200"
-      class="nav-index"
+      width='200'
+      class='nav-index'
       app
     >
       <template #prepend>
-        <router-link :to="{ name: 'home' }">
+        <router-link :to='{ name: "home" }'>
           <icon-home/>
         </router-link>
       </template>
@@ -34,7 +35,7 @@
 
     <v-content>
       <v-container fluid>
-        <slot name="main"></slot>
+        <slot name='main'></slot>
       </v-container>
     </v-content>
   </v-app>
@@ -44,7 +45,6 @@
 import IconHome from '@icons/Home.vue';
 
 export default {
-  name: 'layout-primary',
   components: {
     IconHome
   },

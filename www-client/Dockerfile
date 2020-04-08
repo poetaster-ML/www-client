@@ -10,8 +10,8 @@ ADD tests tests
 
 ADD package.json .
 ADD yarn.lock .
+
 ADD vue.config.js .
-ADD babel.config.js .
 ADD cypress.json .
 
 RUN yarn install

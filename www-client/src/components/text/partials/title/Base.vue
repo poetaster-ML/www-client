@@ -8,7 +8,6 @@
 import Base from '../Base.vue';
 
 export default {
-  name: 'text-title-base',
   extends: Base,
   props: {
     title: String
