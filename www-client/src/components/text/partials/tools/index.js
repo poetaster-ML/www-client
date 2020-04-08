@@ -1,7 +1,5 @@
-import Base from './Base.vue';
-import Read from './Read.vue';
+import Read from './Read';
 
 export {
-  Base as TextToolsBase,
   Read as TextToolsRead
 };

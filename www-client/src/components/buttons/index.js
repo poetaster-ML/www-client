@@ -1,9 +1,11 @@
-import AuthorButton from './Author';
-import AuthorsButton from './Authors';
-import TextButton from './Text';
+import AuthorButton from './AuthorButton';
+import AuthorsButton from './AuthorsButton';
+import TextButton from './TextButton';
+import GlobalNavTextButton from './GlobalNavTextButton';
 
 export {
   AuthorButton,
   AuthorsButton,
-  TextButton
+  TextButton,
+  GlobalNavTextButton
 };

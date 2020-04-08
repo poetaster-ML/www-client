@@ -1,11 +1,10 @@
 .text-edit {
-  .v-input__slot {
-    padding: 0 !important;
-  }
-  textarea {
-    caret-color: $black;
-    line-height: 24px;
-    margin: 0 !important;
-    padding: 0 !important;
+  .quill-editor {
+    .ql-container {
+      .ql-editor {
+        line-height: 10px;
+        outline: none;
+      }
+    }
   }
 }

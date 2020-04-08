@@ -4,7 +4,7 @@
     fluid
   >
     <v-row>
-      <text-list :items="author.texts"/>
+      <TextList :items="author.texts"/>
     </v-row>
   </v-container>
 </template>
@@ -14,17 +14,14 @@ import { Author } from '@models';
 import { TextList } from '@components/text';
 
 export default {
-  name: 'author-base',
-  components: {
-    TextList
-  },
-  data () {
-    return {
-      className: ''
-    };
-  },
   props: {
     author: Author
+  },
+  data: () => ({
+    className: ''
+  }),
+  components: {
+    TextList
   }
 };
 </script>

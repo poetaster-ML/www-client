@@ -1,7 +1,9 @@
-import Base from './Base.vue';
-import Read from './Read.vue';
+import Read from './Read';
+import Highlighted from './Highlighted';
+import Edit from './Edit';
 
 export {
-  Base as TextLineBase,
-  Read as TextLineRead
+  Edit as TextLineEdit,
+  Read as TextLineRead,
+  Highlighted as HighlightedTextLineRead
 };
