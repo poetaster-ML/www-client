@@ -1,7 +1,36 @@
+import defaults from 'lodash/defaults';
 import Delta from 'quill-delta';
-import { Routable } from './Base';
+import { Routable, Base } from './Base';
 
 const splitByNL = str => str.split('\n');
+
+class Author extends Routable {
+  static primaryKey = 'slug';
+  static readRoute = 'authorRead';
+  static editRoute = 'authorEdit';
+
+  get display () {
+    return this.name;
+  }
+
+  get lastName () {
+    const bits = this.name.split(' ');
+    return bits[bits.length - 1];
+  }
+
+  async save () {
+    const { client, name, mutations } = this;
+
+    const { data } = await client.mutate({
+      mutation: mutations.AuthorCreate,
+      variables: { name }
+    });
+
+    const { authorCreate } = data;
+
+    this.populateFields(authorCreate.author);
+  }
+}
 
 class TextBase extends Routable {
   static primaryKey = 'slug';
@@ -35,6 +64,26 @@ class Text extends TextBase {
       throw new Error(`Delta obj: ${delta} contains no ops`);
     }
   }
+
+  async save (fields = {}) {
+    const {
+      title,
+      lines,
+      raw,
+      client, mutations
+    } = this;
+
+    const variables = defaults({ title, lines, raw }, fields);
+
+    const { data } = await client.mutate({
+      mutation: mutations.TextCreate,
+      variables
+    });
+
+    const { textCreate } = data;
+
+    this.populateFields(textCreate.text);
+  }
 }
 
 class TextSearchResult extends TextBase {
@@ -51,7 +100,14 @@ class TextSearchResult extends TextBase {
   }
 }
 
+class TextLabel extends Base {};
+
+class TextLabelRelation extends Base {};
+
 export {
+  Author,
   Text,
+  TextLabel,
+  TextLabelRelation,
   TextSearchResult
 };

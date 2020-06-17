@@ -10,11 +10,28 @@ import apolloProvider from './apollo';
 import vuetify from './plugins/vuetify';
 
 import { normalizeToArray } from '@utils/functional';
+import MouseLocator from '@utils/mouse';
 
 import './styles/main.scss';
 
 (function main () {
+  const mouseLocator = new MouseLocator();
+
+  Vue.use((Vue) => {
+    Vue.prototype.$bubble = function $bubble (eventName, ...args) {
+      // Emit the event on all parent components.
+      let component = this;
+      do {
+        component.$emit(eventName, ...args);
+        component = component.$parent;
+      } while (component);
+    };
+  });
+
   Vue.mixin({
+    data: () => ({
+      mouseLocator: mouseLocator
+    }),
     computed: {
       /**
        * Enum of currently selected annotations.
@@ -29,14 +46,6 @@ import './styles/main.scss';
       }
     }
   });
-
-  /*
-  Object.defineProperty(Vue.prototype, 'children', {
-    get: function () {
-      return this.$children;
-    }
-  });
-  */
 
   Vue.config.productionTip = false;
 

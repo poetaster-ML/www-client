@@ -1,12 +1,12 @@
 <template>
   <layout>
     <template #search-global>
-      <TextSearch @input='onTextSearchInput'/>
+      <TextIndexSearchBar @input='onTextSearchInput'/>
     </template>
 
     <template #main>
       <template v-if='textsSearch.length'>
-        <TextSearchResult
+        <TextIndexSearchResult
           v-for='(text, idx) in textsSearch'
           :text='text'
           :key='idx'
@@ -24,7 +24,7 @@ import {
   TextConnectionSerializer,
   TextSearchResultConnectionSerializer
 } from '@serializers';
-import { TextSearch, TextSearchResult, TextList } from '@components/text';
+import { TextIndexSearchBar, TextIndexSearchResult, TextList } from '@components/text';
 
 export default {
   extends: Base,
@@ -55,9 +55,9 @@ export default {
     }
   },
   components: {
-    TextSearch,
+    TextIndexSearchBar,
     TextList,
-    TextSearchResult
+    TextIndexSearchResult
   }
 };
 </script>

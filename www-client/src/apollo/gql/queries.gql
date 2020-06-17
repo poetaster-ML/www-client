@@ -1,20 +1,5 @@
-fragment pageInfo on PageInfo {
-  startCursor
-  endCursor
-  hasNextPage
-  hasPreviousPage
-}
+#import './fragments.gql'
 
-fragment textDetail on TextNode {
-  id
-  slug
-  title
-}
-
-fragment authorDetail on AuthorNode {
-  slug
-  name
-}
 
 query AuthorsIndex($first:Int, $after:String) {
   authors(first: $first, after: $after) {
@@ -23,6 +8,19 @@ query AuthorsIndex($first:Int, $after:String) {
       cursor
       node {
         ...authorDetail
+      }
+    }
+  }
+}
+
+query AuthorsSearch($query:String) {
+  authorsSearch(query: $query) {
+    pageInfo { ...pageInfo }
+    edges {
+      cursor
+      node {
+        name
+        slug
       }
     }
   }
@@ -79,6 +77,16 @@ query TextDetail($first:Int, $slug:String) {
             }
           }
         }
+        labels {
+          edges {
+            commentary
+            textIndex
+            node {
+              id
+              value
+            }
+          }
+        }
         ...textDetail
       }
     }
@@ -99,6 +107,19 @@ query TextsSearch($query:String) {
           title
           raw
         }
+      }
+    }
+  }
+}
+
+query TextLabelsIndex($first:Int, $after:String) {
+  textLabels(first: $first, after: $after) {
+    pageInfo { ...pageInfo }
+    edges {
+      cursor
+      node {
+        id
+        value
       }
     }
   }

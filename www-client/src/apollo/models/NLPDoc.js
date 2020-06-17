@@ -6,7 +6,7 @@ import { Base } from './Base';
  */
 class NLPDoc extends Base {};
 
-class NLPSyntaxTree {
+class NLPDependencyParse {
   constructor (data) {
     this.data = data;
     this.hierarchy = hierarchy.hierarchy(this.data);
@@ -45,5 +45,5 @@ export {
   NLPDoc,
   NLPSentence,
   NLPToken,
-  NLPSyntaxTree
+  NLPDependencyParse
 };

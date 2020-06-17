@@ -1,0 +1,12 @@
+.text-create-view {
+  .v-toolbar__title {
+    .v-input__slot {
+      margin-bottom: 0;
+
+      &::before {
+        content: none;
+      }
+    }
+  }
+}
+

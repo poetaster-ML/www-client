@@ -1,12 +1,31 @@
+import client from '@/apollo/client';
+import { mutations, queries } from '@/apollo/gql';
+
 class NotImplementedError extends Error {};
 
 class Base {
   static primaryKey;
 
   constructor (data) {
+    this.populateFields(data);
+  }
+
+  populateFields (data) {
     for (const key in data) {
       this[key] = data[key];
     }
+  }
+
+  get queries () {
+    return queries;
+  }
+
+  get mutations () {
+    return mutations;
+  }
+
+  get client () {
+    return client;
   }
 
   get pk () {

@@ -32,7 +32,9 @@ class ModelSerializer extends Serializer {
 
 class ListSerializer extends ModelSerializer {
   constructor (data) {
-    return map(data, datum => super(datum));
+    return data
+      ? map(data, datum => super(datum))
+      : [];
   }
 };
 
@@ -42,7 +44,9 @@ class ListSerializer extends ModelSerializer {
  */
 class ConnectionSerializer extends ModelSerializer {
   constructor (data) {
-    return map(data.edges, edge => super(edge.node));
+    return data
+      ? map(data.edges, edge => super(edge.node))
+      : [];
   }
 };
 

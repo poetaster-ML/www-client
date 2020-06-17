@@ -13,21 +13,32 @@ const defaultOptions = {
   modules: {
     toolbar: false
   },
-  boundary: document.body, // Should be parent element.
+  boundary: document.body, // FIXME: Should be parent element.
   readOnly: false
 };
 
 export default {
   props: {
-    text: Text
+    text: Text,
+    focusOnInit: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
-    defaultOptions
+    defaultOptions,
+    quill: null
   }),
   mounted () {
     this.initialize();
+    this.focusOnInit && this.quill.focus();
+
+    this.quill.on('selection-change', (range) => {
+      this.$bubble('text-editor-selection-change', range);
+    });
   },
   beforeDestroy () {
+    // Should we be removing event listeners?
     this.quill = null;
     delete this.quill;
   },
@@ -56,7 +67,6 @@ export default {
           this.text.applyQuillDelta(delta);
         });
 
-        // Emit ready event
         this.$emit('ready', this.quill);
       }
     }

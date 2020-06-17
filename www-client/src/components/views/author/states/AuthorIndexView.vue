@@ -1,7 +1,7 @@
 <template>
   <layout class='author-index-view'>
     <template #search-global>
-      <TextSearch @input='onTextSearchInput'/>
+      <TextIndexSearchBar @input='onTextIndexSearchBarInput'/>
     </template>
 
     <template #main>
@@ -20,7 +20,7 @@
 import groupBy from 'lodash/groupBy';
 import Base from './Base.vue';
 import { AuthorsIndex } from '@queries';
-import { TextSearch } from '@components/text';
+import { TextIndexSearchBar } from '@components/text';
 import { AuthorList } from '@components/author';
 import { AuthorConnectionSerializer } from '@serializers';
 
@@ -51,12 +51,12 @@ export default {
     }
   },
   methods: {
-    onTextSearchInput () {
+    onTextIndexSearchBarInput () {
       throw new Error('!');
     }
   },
   components: {
-    TextSearch,
+    TextIndexSearchBar,
     AuthorList
   }
 };

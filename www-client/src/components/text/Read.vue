@@ -1,13 +1,6 @@
 <template>
   <div class='text-read' @dblclick='onDblClick'>
-    <template v-if='annotations.syntax'>
-      <TextSentenceRead
-        v-for='(sentence, idx) in nlpDoc.sentences'
-        :sentence='sentence'
-        :key='idx'
-      />
-    </template>
-    <div v-else class='lines'>
+    <div class='lines'>
       <TextLineRead
         v-for='(line, idx) in text.lines'
         :line='line'
@@ -18,7 +11,7 @@
 </template>
 <script>
 import Base from './Base';
-import { TextLineRead, TextSentenceRead } from './partials';
+import { TextLineRead } from './partials';
 
 export default {
   extends: Base,
@@ -27,14 +20,8 @@ export default {
       this.$router.push(this.text.editRoute(), { preserveQuery: true });
     }
   },
-  computed: {
-    nlpDoc () {
-      return this.text.nlpDocVersions[0];
-    }
-  },
   components: {
-    TextLineRead,
-    TextSentenceRead
+    TextLineRead
   }
 };
 </script>

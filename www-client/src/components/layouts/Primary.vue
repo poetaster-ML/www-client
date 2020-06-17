@@ -1,19 +1,11 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      app
-      clipped
-      right
-    >
-      <slot name='nav-tools'></slot>
-    </v-navigation-drawer>
-
     <v-app-bar
       app
       clipped-right
       flat
-      class='nav-global'
-    >
+      class='nav-global'>
+
       <slot name='nav-global'></slot>
       <v-spacer></v-spacer>
       <slot name='search-global'></slot>
@@ -23,8 +15,8 @@
     <v-navigation-drawer
       width='200'
       class='nav-index'
-      app
-    >
+      app>
+
       <template #prepend>
         <router-link :to='{ name: "home" }'>
           <icon-home/>

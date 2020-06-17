@@ -1,0 +1,17 @@
+fragment pageInfo on PageInfo {
+  startCursor
+  endCursor
+  hasNextPage
+  hasPreviousPage
+}
+
+fragment textDetail on TextNode {
+  id
+  slug
+  title
+}
+
+fragment authorDetail on AuthorNode {
+  slug
+  name
+}

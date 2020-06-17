@@ -2,7 +2,7 @@
   <v-card-actions>
     <v-container class='py-0 flex-column'>
       <TextTool
-        type='prosody'
+        type='phonology'
         :textRoute='textRoute'
       />
       <TextTool
@@ -15,6 +15,18 @@
       />
       <TextTool
         type='semantics'
+        :textRoute='textRoute'
+      />
+      <TextTool
+        type='commentary'
+        :textRoute='textRoute'
+      />
+      <TextTool
+        type='inter-text relationships'
+        :textRoute='textRoute'
+      />
+      <TextTool
+        type='intra-text relationships'
         :textRoute='textRoute'
       />
     </v-container>

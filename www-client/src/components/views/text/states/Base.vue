@@ -1,11 +1,11 @@
 <template>
-  <layout></layout>
+  <div></div>
 </template>
 <script>
-import { Layout } from '@layouts';
+import SearchEngine from '@/search';
 export default {
-  components: {
-    Layout
-  }
+  data: () => ({
+    searchEngine: new SearchEngine()
+  })
 };
 </script>

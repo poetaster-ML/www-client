@@ -1,0 +1,15 @@
+.text-create {
+  width: 66.66%;
+
+  .quill-editor {
+    .ql-container {
+      .ql-editor {
+        line-height: 10px;
+        outline: none;
+      }
+      .ql-clipboard {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+#import './fragments.gql'
+
+mutation AuthorCreate($name: String!) {
+  authorCreate(name: $name) {
+    author {
+      ...authorDetail
+    }
+  }
+}
+
+mutation TextCreate($title: String!, $authorSlug: String!, $raw: String!, $lines: [String]!) {
+  textCreate(title: $title, authorSlug: $authorSlug, raw: $raw, lines: $lines) {
+    text {
+      lines
+      raw
+      ...textDetail
+    }
+  }
+}
+
+mutation TextLabelRelationCreate(
+  $textSlug: String!,
+  $textVersion: String!,
+  $labelId: String!,
+  $commentary: String!,
+  $textIndex: Int!,
+) {
+  textLabelRelationCreate (
+    textSlug: $textSlug,
+    textVersion: $textVersion,
+    labelId: $labelId,
+    commentary: $commentary,
+    textIndex: $textIndex
+  ) {
+    textLabelRelation {
+      commentary
+      textIndex
+      label {
+        value
+      }
+    }
+  }
+}

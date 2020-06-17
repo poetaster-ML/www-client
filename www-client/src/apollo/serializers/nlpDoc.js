@@ -2,7 +2,7 @@ import {
   NLPDoc,
   NLPSentence,
   NLPToken,
-  NLPSyntaxTree
+  NLPDependencyParse
 } from '@models';
 import {
   ModelSerializer,
@@ -10,8 +10,8 @@ import {
   ConnectionSerializer
 } from './base';
 
-class NLPSyntaxTreeSerializer extends ModelSerializer {
-  static model = NLPSyntaxTree;
+class NLPDependencyParseSerializer extends ModelSerializer {
+  static model = NLPDependencyParse;
 };
 
 class NLPTokenListSerializer extends ListSerializer {
@@ -24,7 +24,7 @@ class NLPSentenceListSerializer extends ListSerializer {
   static fields () {
     return {
       tokens: v => new NLPTokenListSerializer(v),
-      tree: v => new NLPSyntaxTreeSerializer(v)
+      dependencyParse: v => new NLPDependencyParseSerializer(v)
     };
   }
 };
@@ -34,7 +34,10 @@ class NLPDocConnectionSerializer extends ConnectionSerializer {
 
   static fields () {
     return {
-      sentences: v => new NLPSentenceListSerializer(JSON.parse(v))
+      sentences: v => {
+        v = JSON.parse(v);
+        return new NLPSentenceListSerializer(v.sentences);
+      }
     };
   }
 };

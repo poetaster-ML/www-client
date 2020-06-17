@@ -10,7 +10,8 @@ import {
   TextView,
   TextIndexView,
   TextReadView,
-  TextEditView
+  TextEditView,
+  TextCreateView
 } from '@views';
 
 Vue.use(Router);
@@ -50,6 +51,11 @@ export default new Router({
       path: '/texts/',
       component: TextView,
       children: [
+        {
+          path: 'new/',
+          name: 'textCreate',
+          component: TextCreateView
+        },
         {
           path: ':slug/edit/',
           name: 'textEdit',

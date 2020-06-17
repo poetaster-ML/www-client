@@ -1,7 +1,7 @@
 <template>
   <layout>
     <template #search-global>
-      <TextSearch @input='onTextSearchInput'/>
+      <TextIndexSearchBar @input='onTextIndexSearchBarInput'/>
     </template>
 
     <template #main>
@@ -13,7 +13,7 @@
 <script>
 import { Layout } from '@layouts';
 import { AuthorsIndex } from '@queries';
-import { TextSearch } from '@components/text';
+import { TextIndexSearchBar } from '@components/text';
 import { AuthorConnectionSerializer } from '@serializers';
 
 export default {
@@ -30,13 +30,13 @@ export default {
     }
   },
   methods: {
-    onTextSearchInput () {
+    onTextIndexSearchBarInput () {
       throw new Error('!');
     }
   },
   components: {
     Layout,
-    TextSearch
+    TextIndexSearchBar
   }
 };
 </script>
