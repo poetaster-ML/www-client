@@ -47,25 +47,15 @@ class TextBase extends Routable {
   }
 }
 
+class TextRange {
+  constructor (boundingDomEls, index, length = 0) {
+    this.boundingDomEls = boundingDomEls;
+    this.index = index;
+    this.length = length;
+  }
+}
+
 class Text extends TextBase {
-  toQuillDelta () {
-    const deltaOps = [
-      { insert: this.raw }
-    ];
-    return new Delta(deltaOps);
-  }
-
-  applyQuillDelta (delta) {
-    // Assume a "normalized" delta where a single
-    // op contains all of our text.
-    if (delta.ops.length) {
-      this.raw = delta.ops[0].insert;
-      this.lines = splitByNL(this.raw);
-    } else {
-      throw new Error(`Delta obj: ${delta} contains no ops`);
-    }
-  }
-
   async save (fields = {}) {
     const {
       title,
@@ -84,6 +74,22 @@ class Text extends TextBase {
     const { textCreate } = data;
 
     this.populateFields(textCreate.text);
+  }
+
+  toQuillDelta () {
+    const deltaOps = [{ insert: this.raw }];
+    return new Delta(deltaOps);
+  }
+
+  applyQuillDelta (delta) {
+    // Assume a "normalized" delta where a single
+    // op contains all of our text.
+    if (delta.ops.length) {
+      this.raw = delta.ops[0].insert;
+      this.lines = splitByNL(this.raw);
+    } else {
+      throw new Error(`Delta obj: ${delta} contains no ops`);
+    }
   }
 }
 
@@ -107,12 +113,14 @@ class TextAnnotation extends Base {
   }
 };
 
-class TextAnnotationRelation extends Base {};
+class TextAnnotationRelation extends Base {
+};
 
 export {
   Author,
   Text,
   TextAnnotation,
   TextAnnotationRelation,
-  TextSearchResult
+  TextSearchResult,
+  TextRange
 };

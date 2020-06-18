@@ -72,7 +72,11 @@ export default {
   }),
   methods: {
     onTextEditorSelectionChange (range) {
-      this.textSelectionRange = range;
+      if (range) {
+        this.textSelectionRange = range;
+      } else {
+        console.log('got a null range');
+      }
     }
   },
   components: {

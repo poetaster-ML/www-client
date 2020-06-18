@@ -16,7 +16,8 @@ export default {
     detailMainComponent: null,
     ctrlMenuEnabled: false,
     ctrlMenuPositionY: 0,
-    ctrlMenuPositionX: 0
+    ctrlMenuPositionX: 0,
+    textSelectionRange: null // Abstract -- interface: `TextRange`
   }),
   computed: {
     ctrlMenuItems () {
@@ -63,9 +64,16 @@ export default {
         );
       }
     },
-    onCtrlMenuItemClick ({ label }) {
+    onCtrlMenuItemClick (annotation) {
+      const { text } = this;
+
+      console.log('--->', this.textSelectionRange);
       this.text.annotations.push(
-        new TextAnnotationRelation({ label })
+        new TextAnnotationRelation({
+          text,
+          annotation,
+          textRange: this.textSelectionRange
+        })
       );
     },
     triggerCtrlMenu () {

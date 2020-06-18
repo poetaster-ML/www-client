@@ -25,7 +25,6 @@ export default {
     this.initializeQuill();
     this.setQuillContent();
     this.focusOnInit && this.quill.focus();
-    console.log('?', this);
   },
   beforeDestroy () {
     // Should we be removing event listeners?
@@ -39,8 +38,6 @@ export default {
         this.quill = new Quill(this.$refs.editor, this._options);
       }
     },
-    setQuillContent () {
-      // Varies by mixee
-    }
+    setQuillContent () { /* Varies by mixee. */ }
   }
 };

@@ -8,10 +8,6 @@ export default class CursorUtility {
   lastSelection = null;
 
   constructor () {
-    document.addEventListener('contextmenu', (e) => {
-      console.log(0, e);
-    });
-
     document.addEventListener('mousemove', (e) => {
       const {
         screenX, screenY,

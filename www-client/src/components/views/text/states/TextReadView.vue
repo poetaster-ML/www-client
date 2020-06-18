@@ -35,9 +35,9 @@
           <v-list-item
             v-for='(item, index) in ctrlMenuItems'
             :key='index'
-            @click='onCtrlMenuItemClick'
+            @click='() => onCtrlMenuItemClick(item)'
           >
-            <v-list-item-title>{{ item }}</v-list-item-title>
+            <v-list-item-title>{{ item.display }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -51,6 +51,7 @@ import TextDetailMixin from './TextDetailMixin';
 import { TextRead, TextSyntaxRead } from '@components/text';
 import { TextAnnotationCommentaryListRead } from '@components/text/annotations';
 import { ANNOTATIONS } from '@/search';
+import { TextRange } from '@models';
 
 export default {
   extends: Base,
@@ -65,13 +66,17 @@ export default {
     },
     ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP: {
       [ANNOTATIONS.COM]: TextAnnotationCommentaryListRead
-    }
+    },
+    textSelectionRange: null
   }),
   methods: {
     onDetailMainComponentContextMenuClick (e) {
       TextDetailMixin.methods.onDetailMainComponentContextMenuClick.apply(this, [e]);
 
       this.cursorUtility.restoreSelection();
+
+      // console.log(this.cursorUtility.getSelection());
+      // this.selectionRange = new TextRange();
     }
   },
   components: {

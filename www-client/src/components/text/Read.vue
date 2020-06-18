@@ -5,6 +5,7 @@
         v-for='(line, idx) in text.lines'
         :line='line'
         :key='idx'
+        :ref='idx'
       />
     </div>
   </div>

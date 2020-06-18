@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { Text } from '@models';
+import { Text, TextRange } from '@models';
 import QuillEditorMixin from '@/components/mixins/quill';
 
 export default {
@@ -36,8 +36,22 @@ export default {
   },
   mounted () {
     // Bubble selection. Used:
-    //   - By TextEditView to capture index of commentary and labelling.
-    const bubbleSelectionRange = range => this.$bubble('text-editor-selection-change', range);
+    //   - By TextEditView to capture index of annotation
+    const bubbleSelectionRange = range => {
+      if (range && range.index) {
+        const { selection } = this.quill;
+        const { index, length } = range;
+
+        const [ head ] = selection.scroll.leaf(index);
+        const [ tail ] = selection.scroll.leaf(index + length);
+        const boundingDomEls = [head.domNode.parentElement, tail.domNode.parentElement];
+
+        this.$bubble(
+          'text-editor-selection-change',
+          new TextRange(boundingDomEls, index, length)
+        );
+      }
+    };
     this.quill.on('selection-change', bubbleSelectionRange);
 
     // Save the last lengthful selection for the following operation, since `savedRange`
