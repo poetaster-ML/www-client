@@ -9,7 +9,7 @@
 </template>
 <script>
 import Read from './Read';
-import SyntaxMixin from './SyntaxMixin';
+import SyntaxMixin from '@/components/mixins/syntax';
 import { TextSentenceSyntaxEdit } from './partials';
 
 export default {

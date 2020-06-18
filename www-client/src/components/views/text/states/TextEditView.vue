@@ -20,7 +20,8 @@
         <component
           :is='detailMainComponent'
           :text='text'
-          @click.native='onDetailMainComponentClick'
+          :ctrlMenuEnabled='ctrlMenuEnabled'
+          @contextmenu.native='onDetailMainComponentContextMenuClick'
           @text-editor-selection-change='onTextEditorSelectionChange'/>
       </keep-alive>
 
@@ -34,11 +35,11 @@
 
         <v-list>
           <v-list-item
-            v-for='(item, index) in ctrlClickMenuItems'
+            v-for='(item, index) in ctrlMenuItems'
             :key='index'
-            @click='onCtrlMenuItemClick'
+            @click='() => onCtrlMenuItemClick(item)'
           >
-            <v-list-item-title>{{ item }}</v-list-item-title>
+            <v-list-item-title>{{ item.display }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -50,7 +51,7 @@
 import Base from './Base';
 import TextDetailMixin from './TextDetailMixin';
 import { TextEdit, TextSyntaxEdit } from '@components/text';
-import { TextCommentaryListEdit } from '@components/text/partials';
+import { TextAnnotationCommentaryListEdit } from '@components/text/annotations';
 import { ANNOTATIONS } from '@/search';
 
 export default {
@@ -65,39 +66,18 @@ export default {
       [ANNOTATIONS.SYN]: TextSyntaxEdit
     },
     ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP: {
-      [ANNOTATIONS.COM]: TextCommentaryListEdit
+      [ANNOTATIONS.COM]: TextAnnotationCommentaryListEdit
     },
-    ctrlClickMenuItems: [
-      'Comment',
-      'Tag'
-    ],
-    ctrlMenuEnabled: false,
-    ctrlMenuPositionY: 0,
-    ctrlMenuPositionX: 0,
     textSelectionRange: {}
   }),
   methods: {
-    onDetailMainComponentClick (e) {
-      // Unfortunately without tinkering with vuetify internals
-      // we have to do this to prevent the menu from closing simultaneously.
-      e.preventDefault();
-
-      if (this.textSelectionRange.length) {
-        this.ctrlMenuPositionX = this.mouseLocator.x;
-        this.ctrlMenuPositionY = this.mouseLocator.y;
-        this.ctrlMenuEnabled = true;
-      }
-    },
     onTextEditorSelectionChange (range) {
       this.textSelectionRange = range;
-    },
-    onCtrlMenuItemClick () {
-
     }
   },
   components: {
     TextEdit,
-    TextCommentaryListEdit
+    TextAnnotationCommentaryListEdit
   }
 };
 </script>

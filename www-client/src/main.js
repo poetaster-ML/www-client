@@ -10,12 +10,12 @@ import apolloProvider from './apollo';
 import vuetify from './plugins/vuetify';
 
 import { normalizeToArray } from '@utils/functional';
-import MouseLocator from '@utils/mouse';
+import CursorUtility from '@utils/cursor';
 
 import './styles/main.scss';
 
 (function main () {
-  const mouseLocator = new MouseLocator();
+  const cursorUtility = new CursorUtility();
 
   Vue.use((Vue) => {
     Vue.prototype.$bubble = function $bubble (eventName, ...args) {
@@ -30,7 +30,7 @@ import './styles/main.scss';
 
   Vue.mixin({
     data: () => ({
-      mouseLocator: mouseLocator
+      cursorUtility: cursorUtility
     }),
     computed: {
       /**

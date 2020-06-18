@@ -1,6 +1,7 @@
 import defaults from 'lodash/defaults';
 import Delta from 'quill-delta';
 import { Routable, Base } from './Base';
+import { capitalize } from '@/utils/string';
 
 const splitByNL = str => str.split('\n');
 
@@ -100,14 +101,18 @@ class TextSearchResult extends TextBase {
   }
 }
 
-class TextLabel extends Base {};
+class TextAnnotation extends Base {
+  get display () {
+    return capitalize(this.value);
+  }
+};
 
-class TextLabelRelation extends Base {};
+class TextAnnotationRelation extends Base {};
 
 export {
   Author,
   Text,
-  TextLabel,
-  TextLabelRelation,
+  TextAnnotation,
+  TextAnnotationRelation,
   TextSearchResult
 };

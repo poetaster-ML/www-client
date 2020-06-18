@@ -1,16 +1,22 @@
 <template>
   <div class='text-edit'>
-    <TextEditor :text='text'/>
+    <Editor :text='text' :preventSelectionChangeOnFocusChange='ctrlMenuEnabled'/>
   </div>
 </template>
 <script>
 import Base from './Base';
-import { TextEditor } from '@primitives';
+import Editor from './Editor';
 
 export default {
   extends: Base,
+  props: {
+    ctrlMenuEnabled: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
-    TextEditor
+    Editor
   }
 };
 </script>

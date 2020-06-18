@@ -1,9 +1,9 @@
 import {
   Author,
   Text,
-  TextLabel,
+  TextAnnotation,
   TextSearchResult,
-  TextLabelRelation
+  TextAnnotationRelation
 } from '../models';
 import {
   ModelSerializer,
@@ -31,7 +31,8 @@ class TextConnectionSerializer extends ConnectionSerializer {
   static fields () {
     return {
       author: v => new AuthorSerializer(v),
-      nlpDocVersions: v => new NLPDocConnectionSerializer(v)
+      nlpDocVersions: v => new NLPDocConnectionSerializer(v),
+      annotations: v => new TextAnnotationRelationConnectionSerializer(v)
     };
   }
 }
@@ -46,20 +47,24 @@ class TextSearchResultConnectionSerializer extends ConnectionSerializer {
   }
 }
 
-class TextLabelRelationSerializer extends ModelSerializer {
-  static model = TextLabelRelation;
+class TextAnnotationConnectionSerializer extends ConnectionSerializer {
+  static model = TextAnnotation;
 }
 
-class TextLabelSerializer extends ModelSerializer {
-  static model = TextLabel;
+class TextAnnotationSerializer extends ModelSerializer {
+  static model = TextAnnotation;
 }
 
-class TextLabelRelationConnectionSerializer extends ConnectionSerializer {
-  static model = TextLabelRelation;
+class TextAnnotationRelationSerializer extends ModelSerializer {
+  static model = TextAnnotationRelation;
+}
+
+class TextAnnotationRelationConnectionSerializer extends ConnectionSerializer {
+  static model = TextAnnotationRelation;
 
   static fields () {
     return {
-      label: v => new TextLabelSerializer(v)
+      annotation: v => new TextAnnotationSerializer(v)
     };
   }
 }
@@ -67,9 +72,9 @@ class TextLabelRelationConnectionSerializer extends ConnectionSerializer {
 export {
   AuthorSerializer,
   AuthorConnectionSerializer,
-  TextLabelRelationSerializer,
-  TextLabelSerializer,
-  TextLabelRelationConnectionSerializer,
+  TextAnnotationRelationSerializer,
+  TextAnnotationConnectionSerializer,
+  TextAnnotationRelationConnectionSerializer,
   TextConnectionSerializer,
   TextSearchResultConnectionSerializer
 };

@@ -1,15 +1,28 @@
-import { TextDetail, AuthorDetail } from '@queries';
-import { AuthorConnectionSerializer, TextConnectionSerializer } from '@serializers';
+import { TextDetail, AuthorDetail, TextAnnotationsIndex } from '@queries';
+import {
+  AuthorConnectionSerializer,
+  TextConnectionSerializer,
+  TextAnnotationConnectionSerializer
+} from '@serializers';
 import { currentSlug } from '@utils/queries';
 import TextDetailLayout from './TextDetailLayout';
+import { TextAnnotationRelation } from '@models';
 
 export default {
   data: () => ({
     text: null,
     author: null,
     detailLeftComponent: null,
-    detailMainComponent: null
+    detailMainComponent: null,
+    ctrlMenuEnabled: false,
+    ctrlMenuPositionY: 0,
+    ctrlMenuPositionX: 0
   }),
+  computed: {
+    ctrlMenuItems () {
+      return this.textAnnotations;
+    }
+  },
   apollo: {
     text: {
       query: TextDetail,
@@ -24,6 +37,10 @@ export default {
       },
       skip: vm => !vm.text,
       update: ({ authors }) => new AuthorConnectionSerializer(authors)[0]
+    },
+    textAnnotations: {
+      query: TextAnnotationsIndex,
+      update: ({ textAnnotations }) => new TextAnnotationConnectionSerializer(textAnnotations)
     }
   },
   methods: {
@@ -45,6 +62,22 @@ export default {
           { appendQuery: true }
         );
       }
+    },
+    onCtrlMenuItemClick ({ label }) {
+      this.text.annotations.push(
+        new TextAnnotationRelation({ label })
+      );
+    },
+    triggerCtrlMenu () {
+      this.ctrlMenuPositionX = this.cursorUtility.x;
+      this.ctrlMenuPositionY = this.cursorUtility.y;
+      this.ctrlMenuEnabled = true;
+    },
+    onDetailMainComponentContextMenuClick (e) {
+      this.triggerCtrlMenu();
+
+      // Prevent the browser's own context menu.
+      e.preventDefault();
     }
   },
   created () {

@@ -1,16 +1,16 @@
 <template>
   <div class='text-create'>
-    <TextEditor :text='text' focusOnInit />
+    <Editor :text='text' focusOnInit />
   </div>
 </template>
 <script>
 import Base from './Base';
-import { TextEditor } from '@primitives';
+import Editor from './Editor';
 
 export default {
   extends: Base,
   components: {
-    TextEditor
+    Editor
   }
 };
 </script>

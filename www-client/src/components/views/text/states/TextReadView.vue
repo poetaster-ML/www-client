@@ -4,7 +4,6 @@
     :author='author'
     :loading='$apollo.queries.text.loading'
     :searchEngine='searchEngine'
-    @click='onCtrlClick'
     @text-detail-search-bar-output='onTextDetailSearchBarOutput'>
 
     <template #detail-left>
@@ -18,9 +17,30 @@
 
     <template #detail-main>
       <keep-alive>
-        <component :is='detailMainComponent' :text='text'
-                  />
+        <component
+          :is='detailMainComponent'
+          :text='text'
+          @contextmenu.native='onDetailMainComponentContextMenuClick'/>
       </keep-alive>
+
+      <v-menu
+        absolute
+        offset-y
+        v-model='ctrlMenuEnabled'
+        :position-x='ctrlMenuPositionX'
+        :position-y='ctrlMenuPositionY'
+        :close-on-click='true'>
+
+        <v-list>
+          <v-list-item
+            v-for='(item, index) in ctrlMenuItems'
+            :key='index'
+            @click='onCtrlMenuItemClick'
+          >
+            <v-list-item-title>{{ item }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </template>
   </TextDetailLayout>
 </template>
@@ -29,7 +49,7 @@
 import Base from './Base';
 import TextDetailMixin from './TextDetailMixin';
 import { TextRead, TextSyntaxRead } from '@components/text';
-import { TextCommentaryListRead } from '@components/text/partials';
+import { TextAnnotationCommentaryListRead } from '@components/text/annotations';
 import { ANNOTATIONS } from '@/search';
 
 export default {
@@ -44,17 +64,19 @@ export default {
       [ANNOTATIONS.SYN]: TextSyntaxRead
     },
     ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP: {
-      [ANNOTATIONS.COM]: TextCommentaryListRead
+      [ANNOTATIONS.COM]: TextAnnotationCommentaryListRead
     }
   }),
   methods: {
-    onCtrlClick (e) {
-      console.log(e);
+    onDetailMainComponentContextMenuClick (e) {
+      TextDetailMixin.methods.onDetailMainComponentContextMenuClick.apply(this, [e]);
+
+      this.cursorUtility.restoreSelection();
     }
   },
   components: {
     TextRead,
-    TextCommentaryListRead
+    TextAnnotationCommentaryListRead
   }
 };
 </script>

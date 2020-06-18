@@ -1,0 +1,18 @@
+.commentary-edit {
+  .commentary-quill-editor {
+    .ql-container {
+      .ql-editor {
+        border-color: $lighter-grey;
+        border-style: solid;
+        border-width: 1px;
+        line-height: 10px;
+        min-height: 50px;
+        outline: none;
+        padding: 10px 5px 5px;
+      }
+      .ql-clipboard {
+        display: none;
+      }
+    }
+  }
+}
