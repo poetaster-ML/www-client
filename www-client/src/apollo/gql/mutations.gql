@@ -18,21 +18,21 @@ mutation TextCreate($title: String!, $authorSlug: String!, $raw: String!, $lines
   }
 }
 
-mutation TextLabelRelationCreate(
+mutation TextAnnotationRelationCreate(
   $textSlug: String!,
   $textVersion: String!,
   $labelId: String!,
   $commentary: String!,
   $textIndex: Int!,
 ) {
-  textLabelRelationCreate (
+  textAnnotationRelationCreate (
     textSlug: $textSlug,
     textVersion: $textVersion,
     labelId: $labelId,
     commentary: $commentary,
     textIndex: $textIndex
   ) {
-    textLabelRelation {
+    textAnnotationRelation {
       commentary
       textIndex
       label {

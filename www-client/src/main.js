@@ -5,7 +5,7 @@ import App from './App.vue';
 
 import router from './router';
 import store from './store';
-import apolloProvider from './apollo';
+import createApolloProvider from './apollo';
 
 import vuetify from './plugins/vuetify';
 
@@ -14,7 +14,7 @@ import CursorUtility from '@utils/cursor';
 
 import './styles/main.scss';
 
-(function main () {
+(async function main () {
   const cursorUtility = new CursorUtility();
 
   Vue.use((Vue) => {
@@ -48,6 +48,8 @@ import './styles/main.scss';
   });
 
   Vue.config.productionTip = false;
+
+  const apolloProvider = await createApolloProvider();
 
   new Vue({
     router,

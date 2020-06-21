@@ -4,6 +4,12 @@
       .ql-editor {
         line-height: 10px;
         outline: none;
+
+        p {
+          &.selected {
+            background-color: aliceblue;
+          }
+        }
       }
       .ql-clipboard {
         display: none;

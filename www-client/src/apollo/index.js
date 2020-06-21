@@ -1,7 +1,11 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
-import client from './client';
+import createClient from './client';
 
 Vue.use(VueApollo);
 
-export default new VueApollo({ defaultClient: client });
+const createApolloProvider = async () => {
+  return new VueApollo({ defaultClient: await createClient() });
+};
+
+export default createApolloProvider;

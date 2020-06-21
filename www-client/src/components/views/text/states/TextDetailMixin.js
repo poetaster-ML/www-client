@@ -67,7 +67,6 @@ export default {
     onCtrlMenuItemClick (annotation) {
       const { text } = this;
 
-      console.log('--->', this.textSelectionRange);
       this.text.annotations.push(
         new TextAnnotationRelation({
           text,

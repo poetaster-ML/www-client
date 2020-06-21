@@ -35,44 +35,67 @@ export default {
     }
   },
   mounted () {
+    // Lines -> enclosing paragraph elements.
+    const elements = range => {
+      const { selection } = this.quill;
+      const { index, length } = range;
+
+      const elements = [];
+      for (let i = 0; i <= length; i++) {
+        const [ el ] = selection.scroll.leaf(index + i);
+        elements.push(el.domNode.parentElement);
+      }
+      return elements;
+    };
+
     // Bubble selection. Used:
     //   - By TextEditView to capture index of annotation
     const bubbleSelectionRange = range => {
       if (range && range.index) {
-        const { selection } = this.quill;
         const { index, length } = range;
-
-        const [ head ] = selection.scroll.leaf(index);
-        const [ tail ] = selection.scroll.leaf(index + length);
-        const boundingDomEls = [head.domNode.parentElement, tail.domNode.parentElement];
 
         this.$bubble(
           'text-editor-selection-change',
-          new TextRange(boundingDomEls, index, length)
+          new TextRange(elements(range), index, length)
         );
       }
     };
-    this.quill.on('selection-change', bubbleSelectionRange);
+
+    // Apply a class indicating selection to the selection range.
+    const classifySelectionRange = range => {
+      if (range && range.index) {
+        for (const el of elements(range)) {
+          el.classList.add('selected');
+        }
+      }
+    };
 
     // Save the last lengthful selection for the following operation, since `savedRange`
     // has the already lengthless selection.
     const saveLengthfulSelectionRange = range => {
       if (range && range.length) this.lastLengthfulSelection = range;
     };
-    this.quill.on('selection-change', saveLengthfulSelectionRange);
 
     // Parent components may want selected text to remain selected even
     // when quill loses focus, for instance when an edit menu is enabled
     // w/r/t the current selection. It would be nice to prevent the change
     // from happening in the first place given this flag, but that's a task
     // for another day... for now revert it.
-    const revertSelectionChange = (_, __, source) => {
+    const revertToPreviousLengthfulSelectionChange = (_, __, source) => {
       const { selection } = this.quill;
       if (source === 'user' && this.preventSelectionChangeOnFocusChange) {
         selection.setRange(this.lastLengthfulSelection);
       }
     };
-    this.quill.on('selection-change', revertSelectionChange);
+
+    const selectionChangeEventHandlers = [
+      bubbleSelectionRange,
+      saveLengthfulSelectionRange,
+      revertToPreviousLengthfulSelectionChange,
+      classifySelectionRange
+    ];
+
+    selectionChangeEventHandlers.map(handler => this.quill.on('selection-change', handler));
   }
 };
 </script>

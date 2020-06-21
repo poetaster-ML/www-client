@@ -14,6 +14,7 @@
     "@mdi/js": "^4.4.95",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.0",
+    "apollo-cache-persist": "^0.1.1",
     "core-js": "^2.6.5",
     "d3-hierarchy": "^1.1.9",
     "d3-selection": "^1.4.1",

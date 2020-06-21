@@ -114,6 +114,27 @@ class TextAnnotation extends Base {
 };
 
 class TextAnnotationRelation extends Base {
+  async save (fields = {}) {
+    const {
+      textSlug,
+      textVersion,
+      labelId,
+      commentary,
+      textIndex,
+      client, mutations
+    } = this;
+
+    const variables = defaults({ title, lines, raw }, fields);
+
+    const { data } = await client.mutate({
+      mutation: mutations.TextAnnotationRelationCreate,
+      variables
+    });
+
+    const { textAnnotationRelationCreate } = data;
+
+    this.populateFields(textAnnotationRelationCreate.textAnnotationRelation);
+  }
 };
 
 export {

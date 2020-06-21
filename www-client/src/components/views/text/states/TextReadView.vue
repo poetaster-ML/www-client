@@ -75,8 +75,8 @@ export default {
 
       this.cursorUtility.restoreSelection();
 
-      // console.log(this.cursorUtility.getSelection());
-      // this.selectionRange = new TextRange();
+      console.log(this.cursorUtility.getSelection());
+      this.selectionRange = new TextRange();
     }
   },
   components: {
