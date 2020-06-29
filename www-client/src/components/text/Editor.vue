@@ -26,16 +26,10 @@ export default {
     setQuillContent () {
       const delta = this.text.toQuillDelta();
       this.quill.setContents(delta);
-
-      // Update model if text changes.
-      this.quill.on('text-change', () => {
-        const delta = this.quill.getContents();
-        this.text.applyQuillDelta(delta);
-      });
     }
   },
   mounted () {
-    // Lines -> enclosing paragraph elements.
+    // Lines of text -> their enclosing paragraph elements.
     const elements = range => {
       const { selection } = this.quill;
       const { index, length } = range;
@@ -49,7 +43,7 @@ export default {
     };
 
     // Bubble selection. Used:
-    //   - By TextEditView to capture index of annotation
+    //   - By TextEditView to capture index of annotation.
     const bubbleSelectionRange = range => {
       if (range && range.index) {
         const { index, length } = range;
@@ -96,6 +90,11 @@ export default {
     ];
 
     selectionChangeEventHandlers.map(handler => this.quill.on('selection-change', handler));
+
+    const textChangeEventHandlers = [
+      () => this.text.applyQuillDelta(this.quill.getContents())
+    ];
+    textChangeEventHandlers.map(handler => this.quill.on('text-change', handler));
   }
 };
 </script>

@@ -21,7 +21,7 @@ mutation TextCreate($title: String!, $authorSlug: String!, $raw: String!, $lines
 mutation TextAnnotationRelationCreate(
   $textSlug: String!,
   $textVersion: String!,
-  $labelId: String!,
+  $labelId: Int!,
   $commentary: String!,
   $textIndex: Int!,
 ) {

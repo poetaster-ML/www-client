@@ -9,7 +9,10 @@
     <template #detail-left>
       <template v-if='detailLeftComponent'>
         <v-col style='flex-grow: 1'>
-          <component :is='detailLeftComponent' :text='text'/>
+          <component
+            :is='detailLeftComponent'
+            :text='text'
+            @text-editor-text-change='onDetailLeftTextEditorTextChange'/>
         </v-col>
         <v-divider vertical/>
       </template>
@@ -48,6 +51,7 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
 import Base from './Base';
 import TextDetailMixin from './TextDetailMixin';
 import { TextEdit, TextSyntaxEdit } from '@components/text';
@@ -77,7 +81,11 @@ export default {
       } else {
         console.log('got a null range');
       }
-    }
+    },
+    onDetailLeftTextEditorTextChange: debounce(function (textAnnotationRelation) {
+      console.log(0, textAnnotationRelation);
+      textAnnotationRelation.save();
+    }, 500)
   },
   components: {
     TextEdit,

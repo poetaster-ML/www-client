@@ -1,4 +1,4 @@
-import client from '@/apollo/client';
+import { getClient } from '@/apollo';
 import { mutations, queries } from '@/apollo/gql';
 
 class NotImplementedError extends Error {};
@@ -25,7 +25,7 @@ class Base {
   }
 
   get client () {
-    return client;
+    return getClient();
   }
 
   get pk () {

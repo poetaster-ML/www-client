@@ -17,9 +17,21 @@ export default {
   },
   methods: {
     setQuillContent () {
+      const delta = this.textAnnotationRelation.toQuillDelta();
+      delta && this.quill.setContents(delta);
     }
   },
   mounted () {
+    const bubbleTextChange = delta => {
+      this.textAnnotationRelation.applyQuillDelta(this.quill.getContents());
+      this.$bubble('text-editor-text-change', this.textAnnotationRelation);
+    };
+
+    const textChangeEventHandlers = [
+      bubbleTextChange
+    ];
+
+    textChangeEventHandlers.map(handler => this.quill.on('text-change', handler));
   }
 };
 </script>

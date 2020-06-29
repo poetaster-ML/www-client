@@ -1,6 +1,8 @@
 <template>
   <div class='commentary-edit' style='position: relative'>
-    <Editor ref='editor'/>
+    <Editor
+      ref='editor'
+      :textAnnotationRelation='textAnnotationRelation'/>
     <Halyard
       style='position: absolute;'
       :transform='halyardTransform'
@@ -114,6 +116,8 @@ export default {
         ? UP
         : DOWN;
     }
+  },
+  methods: {
   },
   mounted () {
     this.$set(this, 'halyardSource', this.$refs.editor.$el);

@@ -71,6 +71,7 @@ export default {
         new TextAnnotationRelation({
           text,
           annotation,
+          commentary: '',
           textRange: this.textSelectionRange
         })
       );

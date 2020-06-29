@@ -2,6 +2,7 @@ import defaults from 'lodash/defaults';
 import Delta from 'quill-delta';
 import { Routable, Base } from './Base';
 import { capitalize } from '@/utils/string';
+import { pkFromGlobalID } from './utils';
 
 const splitByNL = str => str.split('\n');
 
@@ -57,11 +58,12 @@ class TextRange {
 
 class Text extends TextBase {
   async save (fields = {}) {
+    const client = await this.client;
     const {
       title,
       lines,
       raw,
-      client, mutations
+      mutations
     } = this;
 
     const variables = defaults({ title, lines, raw }, fields);
@@ -115,16 +117,26 @@ class TextAnnotation extends Base {
 
 class TextAnnotationRelation extends Base {
   async save (fields = {}) {
+    const client = await this.client;
     const {
+      commentary,
+      mutations
+    } = this;
+
+    const textSlug = this.text.slug;
+    const textVersion = this.text.version;
+    const labelId = pkFromGlobalID(this.annotation.id);
+    const textIndex = this.textRange.index;
+
+    const variables = defaults({
       textSlug,
       textVersion,
       labelId,
       commentary,
-      textIndex,
-      client, mutations
-    } = this;
+      textIndex
+    }, fields);
 
-    const variables = defaults({ title, lines, raw }, fields);
+    console.log(variables);
 
     const { data } = await client.mutate({
       mutation: mutations.TextAnnotationRelationCreate,
@@ -134,6 +146,26 @@ class TextAnnotationRelation extends Base {
     const { textAnnotationRelationCreate } = data;
 
     this.populateFields(textAnnotationRelationCreate.textAnnotationRelation);
+  }
+
+  toQuillDelta () {
+    const deltaOps = [{ insert: this.commentary }];
+    return new Delta(deltaOps);
+  }
+
+  applyQuillDelta (delta) {
+    // Assume a "normalized" delta where a single
+    // op contains all of our text.
+
+    console.log(delta);
+
+    if (delta.ops.length) {
+      this.commentary = delta.ops[0].insert;
+    } else {
+      throw new Error(`Delta obj: ${delta} contains no ops`);
+    }
+
+    console.log(this.commentary);
   }
 };
 

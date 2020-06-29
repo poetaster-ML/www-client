@@ -1,8 +1,10 @@
 <template>
-  <svg class='commentary-halyard' :width='width' :height='height'
+  <svg class='commentary-halyard'
+    :width='width'
+    :height='height'
     :transform='transform'>
 
-    <path :d='d' stroke='black' stroke-width="0.25"/>
+    <path :d='d' stroke='black' stroke-width='0.25'/>
   </svg>
 </template>
 <script>

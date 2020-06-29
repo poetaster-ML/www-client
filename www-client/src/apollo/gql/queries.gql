@@ -65,6 +65,7 @@ query TextDetail($first:Int, $slug:String) {
   texts(first: $first, slug: $slug) {
     edges {
       node {
+        version
         author {
           ...authorDetail
         }
