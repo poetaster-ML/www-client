@@ -1,6 +1,5 @@
 <template>
-  <div class='line line--highlighted`' v-html='line'>
-  </div>
+  <span><em>{{ token.value }}</em><slot name='post'></slot></span>
 </template>
 
 <script>

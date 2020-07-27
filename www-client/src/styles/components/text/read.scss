@@ -1,2 +1,10 @@
 .text-read {
+  display: contents;
+
+  .line {
+    em {
+      background: #abdaff;
+      font-style: normal;
+    }
+  }
 }

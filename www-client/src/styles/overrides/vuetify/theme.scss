@@ -16,3 +16,8 @@ $material-light: map-merge($material-light, (
     )
   )
 ));
+
+.v-application {
+  font-family: $font-family;
+  font-weight: 600;
+}

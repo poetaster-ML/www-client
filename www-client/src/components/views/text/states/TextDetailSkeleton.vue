@@ -9,9 +9,7 @@
     </template>
 
     <template #search-global>
-      <TextDetailSearchBar
-        :text='text'
-        :searchEngine='searchEngine'/>
+      <TextDetailSearchBar/>
     </template>
 
     <template #nav-index>
@@ -42,7 +40,6 @@ import { TextDetailSearchBar } from '@components/text';
 import { AuthorButton, GlobalNavTextButton } from '@buttons';
 import { IconArrowRight } from '@icons';
 import { TextsBar } from '@navigation';
-import SearchEngine from '@/search';
 import { Author, Text } from '@models';
 
 export default {
@@ -53,8 +50,7 @@ export default {
     loading: {
       type: Boolean,
       default: true
-    },
-    searchEngine: SearchEngine
+    }
   },
   components: {
     AuthorButton,

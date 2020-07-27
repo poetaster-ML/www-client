@@ -1,5 +1,6 @@
 <template>
-  <span>{{ token.value }}<slot name='post'></slot></span>
+  <div class='line line--highlit' v-html='line'>
+  </div>
 </template>
 
 <script>

@@ -25,18 +25,18 @@ export default class Router extends VueRouter {
     {
       onComplete,
       onAbort,
+      preserveQueryKey,
       appendQuery = false,
-      preserveQuery = false // Should take query name...
+      preserveQuery = false
     } = {}
   ) {
     const currentQuery = cloneDeep(this.currentRoute.query);
 
+    console.log('PUSH START', location, appendQuery);
     if (appendQuery && currentQuery && location.query) {
       location.query = cloneDeep(location.query);
 
       for (const k in currentQuery) {
-        if (!location.query[k]) continue;
-
         normalizeObjValsToArrays(k, currentQuery, location.query);
 
         // Concatenate so the original is preserved.
@@ -44,9 +44,13 @@ export default class Router extends VueRouter {
       }
     }
 
-    if (preserveQuery && this.currentRoute.query) {
+    if (preserveQueryKey && this.currentRoute.query) {
+      location.query[preserveQueryKey] = this.currentRoute.query[preserveQueryKey];
+    } else if (preserveQuery && this.currentRoute.query) {
       location.query = this.currentRoute.query;
     }
+
+    console.log('PUSH COMPLETE', location, appendQuery);
 
     super.push(location, onComplete, onAbort);
   }

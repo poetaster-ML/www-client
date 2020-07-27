@@ -3,4 +3,7 @@
 @import 'layout/main';
 @import 'components/main';
 @import 'views/main';
+@import 'typography/main';
 @import 'overrides/vuetify/theme';
+
+@import '~vuetify/src/styles/styles.sass';

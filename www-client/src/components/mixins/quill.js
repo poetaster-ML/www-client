@@ -24,6 +24,9 @@ export default {
   mounted () {
     this.initializeQuill();
     this.setQuillContent();
+
+    this.eventBus.$emit('quill-initialized', this.quill);
+
     this.focusOnInit && this.quill.focus();
   },
   beforeDestroy () {

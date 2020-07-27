@@ -2,6 +2,7 @@ import defaults from 'lodash/defaults';
 import Delta from 'quill-delta';
 import { Routable, Base } from './Base';
 import { capitalize } from '@/utils/string';
+import { percent } from '@/utils/math';
 import { pkFromGlobalID } from './utils';
 
 const splitByNL = str => str.split('\n');
@@ -34,10 +35,72 @@ class Author extends Routable {
   }
 }
 
+class TextToken {
+  constructor (value, { isHighlit = false } = {}) {
+    this.value = value;
+    this.isHighlit = isHighlit;
+  }
+}
+
+class TextLine {
+  constructor (value, { isHighlit = false, highlitKey = '', matches = [] } = {}) {
+    this.value = value;
+    this.matches = matches;
+    this.highlitKey = highlitKey;
+  }
+
+  // Fuse should support a minMatchCharLength that's
+  // a function of query length, but instead we'll do this --
+  // We'll only highlight string matches of 80% and greater.
+  get relevantHighlitIndices () {
+    const { matches, highlitKey } = this;
+
+    return matches.reduce(
+      (acc, { indices }) => {
+        const relevantIndices = indices.filter(([ start, stop ]) => {
+          return percent(((stop - start) + 1), highlitKey.length) >= 80;
+        });
+
+        return acc.concat(relevantIndices);
+      }, []
+    );
+  }
+
+  get tokens () {
+    let self = this;
+    const rawTokens = this.value.split(' ');
+
+    // Do the relevant highlit indices contain a range that contains
+    // the token's index?
+    const isHighlit = token => {
+      const idx = self.value.indexOf(token);
+      return self.relevantHighlitIndices.some(([ rhiStart, rhiStop ]) => {
+        return (idx >= rhiStart) && (idx <= rhiStop);
+      });
+    };
+
+    return rawTokens.map(rawToken => new TextToken(
+      rawToken, { isHighlit: isHighlit(rawToken) }
+    ));
+  }
+
+  get isHighlit () {
+    return this.tokens.some(token => token.isHighlit);
+  }
+}
+
 class TextBase extends Routable {
   static primaryKey = 'slug';
   static readRoute = 'textRead';
   static editRoute = 'textEdit';
+
+  populateFields (data) {
+    Routable.prototype.populateFields.call(this, data);
+
+    if (this.lines) {
+      this.lines = this.lines.map(line => new TextLine(line));
+    }
+  }
 
   get linesFromRaw () {
     return splitByNL(this.raw);
@@ -125,15 +188,18 @@ class TextAnnotationRelation extends Base {
 
     const textSlug = this.text.slug;
     const textVersion = this.text.version;
-    const labelId = pkFromGlobalID(this.annotation.id);
-    const textIndex = this.textRange.index;
+    const annotationId = pkFromGlobalID(this.annotation.id);
+
+    const textStartIndex = this.textRange.index;
+    const textEndIndex = textStartIndex + this.textRange.length;
 
     const variables = defaults({
       textSlug,
       textVersion,
-      labelId,
+      annotationId,
       commentary,
-      textIndex
+      textStartIndex,
+      textEndIndex
     }, fields);
 
     console.log(variables);
@@ -167,11 +233,17 @@ class TextAnnotationRelation extends Base {
 
     console.log(this.commentary);
   }
+
+  get length () {
+    return this.textEndIndex - this.textStartIndex;
+  }
 };
 
 export {
   Author,
   Text,
+  TextToken,
+  TextLine,
   TextAnnotation,
   TextAnnotationRelation,
   TextSearchResult,

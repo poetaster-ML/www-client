@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <Read />
+  <div class='commentary-list-read'>
+    <template v-for='(textAnnotationRelation, idx) in textAnnotationRelations'>
+      <Read
+        :textAnnotationRelation='textAnnotationRelation'
+        :key='idx'
+      />
+    </template>
   </div>
 </template>
 

@@ -21,21 +21,53 @@ mutation TextCreate($title: String!, $authorSlug: String!, $raw: String!, $lines
 mutation TextAnnotationRelationCreate(
   $textSlug: String!,
   $textVersion: String!,
-  $labelId: Int!,
+  $annotationId: Int!,
   $commentary: String!,
-  $textIndex: Int!,
+  $textStartIndex: Int!,
+  $textEndIndex: Int!
 ) {
   textAnnotationRelationCreate (
     textSlug: $textSlug,
     textVersion: $textVersion,
-    labelId: $labelId,
+    annotationId: $annotationId,
     commentary: $commentary,
-    textIndex: $textIndex
+    textStartIndex: $textStartIndex,
+    textEndIndex: $textEndIndex
   ) {
     textAnnotationRelation {
       commentary
-      textIndex
-      label {
+      textStartIndex
+      textEndIndex
+      annotation {
+        value
+      }
+    }
+  }
+}
+
+mutation TextAnnotationRelationUpdate(
+  $id: ID!,
+  $textSlug: String!,
+  $textVersion: String!,
+  $annotationId: Int!,
+  $commentary: String!,
+  $textStartIndex: Int!,
+  $textEndIndex: Int!
+) {
+  textAnnotationRelationUpdate (
+    id: $id,
+    textSlug: $textSlug,
+    textVersion: $textVersion,
+    annotationId: $annotationId,
+    commentary: $commentary,
+    textStartIndex: $textStartIndex,
+    textEndIndex: $textEndIndex
+  ) {
+    textAnnotationRelation {
+      commentary
+      textStartIndex
+      textEndIndex
+      annotation {
         value
       }
     }

@@ -3,11 +3,9 @@
   </div>
 </template>
 <script>
-import { Text } from '@models';
-
 export default {
   props: {
-    text: Text
+    textAnnotationRelations: Array
   }
 };
 

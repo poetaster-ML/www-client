@@ -1,15 +1,15 @@
 <template>
-  <TextDetailLayout
+  <TextDetailSkeleton
     :text='text'
     :author='author'
-    :loading='$apollo.queries.text.loading'
-    :searchEngine='searchEngine'
-    @text-detail-search-bar-output='onTextDetailSearchBarOutput'>
+    :loading='$apollo.queries.text.loading'>
 
-    <template #detail-left>
-      <template v-if='detailLeftComponent'>
+    <template #detail-left v-if='detailLeftComponent'>
+      <template v-if='textAnnotationRelations.length'>
         <v-col style='flex-grow: 1'>
-          <component :is='detailLeftComponent' :text='text'/>
+          <component
+            :is='detailLeftComponent'
+            :textAnnotationRelations='textAnnotationRelations'/>
         </v-col>
         <v-divider vertical/>
       </template>
@@ -42,7 +42,7 @@
         </v-list>
       </v-menu>
     </template>
-  </TextDetailLayout>
+  </TextDetailSkeleton>
 </template>
 
 <script>
@@ -62,7 +62,8 @@ export default {
     detailLeftComponent: null,
     detailMainComponent: TextRead,
     ANNOTATION_TO_DETAIL_MAIN_COMPONENT_MAP: {
-      [ANNOTATIONS.SYN]: TextSyntaxRead
+      [ANNOTATIONS.SYN]: TextSyntaxRead,
+      [ANNOTATIONS.COM]: TextRead
     },
     ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP: {
       [ANNOTATIONS.COM]: TextAnnotationCommentaryListRead

@@ -1,9 +1,11 @@
 import Read from './Read';
-import Highlighted from './Highlighted';
+import ServerReadHighlit from './ServerReadHighlit';
+import ClientReadHighlit from './ClientReadHighlit';
 import Edit from './Edit';
 
 export {
   Edit as TextLineEdit,
   Read as TextLineRead,
-  Highlighted as HighlightedTextLineRead
+  ServerReadHighlit as TextLineServerReadHighlit,
+  ClientReadHighlit as TextLineClientReadHighlit
 };

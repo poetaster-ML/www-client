@@ -1,15 +1,9 @@
-<template>
-  <div :class="`${className}__token`">
-    {{ line }}
-  </div>
-</template>
-
 <script>
-import Base from '../Base.vue';
+import { TextToken } from '@models';
+
 export default {
-  extends: Base,
   props: {
-    line: String
+    token: TextToken
   }
 };
 </script>

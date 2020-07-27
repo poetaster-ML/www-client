@@ -1,9 +1,9 @@
 $font-size-base: 16px !default;
-
-// overrides vuetify
-$body-font-family: '';
+$font-family: 'Favorit Mono Web' !important;
+$body-font-family: $font-family;
 
 html {
+  font-family: $body-font-family;
   font-size: $font-size-base;
 }
 
@@ -35,4 +35,167 @@ html {
     font-weight: ste-get-font-weight($weight);
     src: $src;
   }
+}
+
+
+// FONT DECLARATIONS
+///////////////////////////////////////////////////////////
+$font-dir: 'typography/fonts/' !default;
+
+// the value below is the line-height at which bottom-aligned
+// text will sit right a the bottom of its container (should
+// only be used for single line text), or...
+// this can also be thought of as the line height at which
+// two lines of text in ALL CAPS would juuust touch.
+$font-lineheight-touching: 0.7;
+
+// Favorit
+@font-face {
+    font-family: 'Favorit Web';
+    font-style: normal;
+    font-weight: 400;
+    src: url('#{$font-dir}FavoritStd-Light.woff2') format('woff2'),
+        url('#{$font-dir}FavoritStd-Light.woff') format('woff');
+}
+@font-face {
+    font-family: 'Favorit Web';
+    font-style: italic;
+    font-weight: 400;
+    src: url('#{$font-dir}FavoritStd-LightItalic.woff2') format('woff2'),
+        url('#{$font-dir}FavoritStd-LightItalic.woff') format('woff');
+}
+@font-face {
+    font-family: 'Favorit Web';
+    font-style: normal;
+    font-weight: 600;
+    src: url('#{$font-dir}FavoritStd-Medium.woff2') format('woff2'),
+        url('#{$font-dir}FavoritStd-Medium.woff') format('woff');
+}
+@font-face {
+    font-family: 'Favorit Web';
+    font-style: italic;
+    font-weight: 600;
+    src: url('#{$font-dir}FavoritStd-MediumItalic.woff2') format('woff2'),
+        url('#{$font-dir}FavoritStd-MediumItalic.woff') format('woff');
+}
+@font-face {
+    font-family: 'Favorit Web';
+    font-style: normal;
+    font-weight: 700;
+    src: url('#{$font-dir}FavoritStd-Bold.woff2') format('woff2'),
+        url('#{$font-dir}FavoritStd-Bold.woff') format('woff');
+}
+
+// Favorit Mono
+@font-face {
+    font-family: 'Favorit Mono Web';
+    font-style: normal;
+    font-weight: 400;
+    src: url('#{$font-dir}FavoritMonoStd-Light.woff2') format('woff2'),
+        url('#{$font-dir}FavoritMonoStd-Light.woff') format('woff');
+}
+@font-face {
+    font-family: 'Favorit Mono Web';
+    font-style: normal;
+    font-weight: 600;
+    src: url('#{$font-dir}FavoritMonoStd-Regular.woff2') format('woff2'),
+        url('#{$font-dir}FavoritMonoStd-Regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Favorit Mono Web';
+    font-style: normal;
+    font-weight: 700;
+    src: url('#{$font-dir}FavoritMonoStd-Medium.woff2') format('woff2'),
+        url('#{$font-dir}FavoritMonoStd-Medium.woff') format('woff');
+}
+
+// Favorit Lining (underlined)
+@font-face {
+    font-family: 'Favorit Lining Web';
+    font-style: normal;
+    font-weight: 400;
+    src: url('#{$font-dir}FavoritLiningStd-Light.woff2') format('woff2'),
+        url('#{$font-dir}FavoritLiningStd-Light.woff') format('woff');
+}
+
+
+// FONT MIXINS
+///////////////////////////////////////////////////////////
+$font-family-normal: 'Favorit Web', Helvetica Neue, Helvetica, Arial, sans-serif;
+$font-family-mono: 'Favorit Mono Web', Courier New, Courier, monospace;
+$font-family-lining: 'Favorit Lining Web', Helvetica Neue, Helvetica, Arial, sans-serif;
+
+@mixin font-family($family, $size: null) {
+    @if $family == normal {
+        font-family: $font-family-normal;
+        text-transform: none;
+
+        @if $size {
+            @if $size >= 32 {
+                letter-spacing: -0.055em;
+            } @else if $size < 32 {
+                letter-spacing: -0.035em;
+            }
+        }
+
+    } @else if $family == mono {
+        font-family: $font-family-mono;
+        letter-spacing: 0.0135em;
+        text-transform: uppercase;
+
+    } @else if $family == lining {
+        font-family: $font-family-lining;
+        text-transform: none;
+
+        @if $size {
+            @if $size >= 32 {
+                letter-spacing: -0.055em;
+            } @else if $size < 32 {
+                letter-spacing: -0.035em;
+            }
+        }
+        
+        // don't underline this style EVER
+        &, a {
+            text-decoration: none;
+        }
+    }
+}
+
+@mixin font-weight($weight) {
+    @if $weight == regular {
+        font-weight: 400;
+
+    } @else if $weight == medium {
+        font-weight: 600;
+
+    } @else if $weight == bold {
+        font-weight: 700;
+    }
+}
+
+@mixin font-prettifier() {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+@mixin font($family, $weight: regular, $size: null, $line-height: null) {
+    @include font-family($family, $size);
+
+    // weight (lining only has 400 weight so force that regardless)
+    @if $family == lining {
+        @include font-weight(regular);
+
+    } @else {
+        @include font-weight($weight);
+    }
+
+    @if $size {
+        font-size: rem($size);
+    }
+
+    @if $line-height {
+        line-height: $line-height;
+    }
 }

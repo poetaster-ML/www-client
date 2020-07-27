@@ -7,12 +7,12 @@ import router from './router';
 import store from './store';
 import createApolloProvider from './apollo';
 
+import './styles/main.scss';
 import vuetify from './plugins/vuetify';
 
-import { normalizeToArray } from '@utils/functional';
 import CursorUtility from '@utils/cursor';
 
-import './styles/main.scss';
+const eventBus = new Vue();
 
 (async function main () {
   const cursorUtility = new CursorUtility();
@@ -30,21 +30,9 @@ import './styles/main.scss';
 
   Vue.mixin({
     data: () => ({
-      cursorUtility: cursorUtility
-    }),
-    computed: {
-      /**
-       * Enum of currently selected annotations.
-       */
-      annotations () {
-        const { annotation } = this.$route.query;
-        const annotations = annotation ? normalizeToArray(annotation) : [];
-        return annotations.reduce(
-          (acc, annotation) => Object.assign(acc, { [annotation]: annotation }),
-          {}
-        );
-      }
-    }
+      cursorUtility: cursorUtility,
+      eventBus
+    })
   });
 
   Vue.config.productionTip = false;

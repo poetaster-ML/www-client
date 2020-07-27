@@ -1,7 +1,7 @@
 <template>
   <svg class='commentary-halyard'
     :width='width'
-    :height='height'
+    :height='absHeight'
     :transform='transform'>
 
     <path :d='d' stroke='black' stroke-width='0.25'/>
@@ -21,6 +21,9 @@ export default {
     direction: String // 'up' or 'down'
   },
   computed: {
+    absHeight () {
+      return Math.abs(this.height);
+    },
     d () {
       return this.direction === DOWN
         ? `M 0 0 L ${this.width} ${this.height}`

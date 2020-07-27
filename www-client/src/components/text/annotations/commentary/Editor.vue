@@ -27,11 +27,7 @@ export default {
       this.$bubble('text-editor-text-change', this.textAnnotationRelation);
     };
 
-    const textChangeEventHandlers = [
-      bubbleTextChange
-    ];
-
-    textChangeEventHandlers.map(handler => this.quill.on('text-change', handler));
+    this.quill.on('text-change', bubbleTextChange);
   }
 };
 </script>

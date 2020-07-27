@@ -1,11 +1,20 @@
-import { TextDetail, AuthorDetail, TextAnnotationsIndex } from '@queries';
+import isFunction from 'lodash/isFunction';
+import debounce from 'lodash/debounce';
+import { DetailSearchEngine } from '@/search';
+import {
+  TextDetail,
+  AuthorDetail,
+  TextAnnotationsIndex,
+  TextAnnotationRelations
+} from '@queries';
 import {
   AuthorConnectionSerializer,
   TextConnectionSerializer,
-  TextAnnotationConnectionSerializer
+  TextAnnotationConnectionSerializer,
+  TextAnnotationRelationConnectionSerializer
 } from '@serializers';
 import { currentSlug } from '@utils/queries';
-import TextDetailLayout from './TextDetailLayout';
+import TextDetailSkeleton from './TextDetailSkeleton';
 import { TextAnnotationRelation } from '@models';
 
 export default {
@@ -17,7 +26,10 @@ export default {
     ctrlMenuEnabled: false,
     ctrlMenuPositionY: 0,
     ctrlMenuPositionX: 0,
-    textSelectionRange: null // Abstract -- interface: `TextRange`
+    textSelectionRange: null, // Abstract -- interface: `TextRange`
+    textAnnotationRelations: [],
+    searchEngine: new DetailSearchEngine(),
+    initialQuery: false
   }),
   computed: {
     ctrlMenuItems () {
@@ -42,32 +54,65 @@ export default {
     textAnnotations: {
       query: TextAnnotationsIndex,
       update: ({ textAnnotations }) => new TextAnnotationConnectionSerializer(textAnnotations)
+    },
+    textAnnotationRelations: {
+      query: TextAnnotationRelations,
+      variables () {
+        return {
+          textSlug: this.text.slug
+        };
+      },
+      skip: vm => !vm.text,
+      update: ({ textAnnotationRelations }) => new TextAnnotationRelationConnectionSerializer(textAnnotationRelations)
     }
   },
   methods: {
-    setAnnotationComponents (annotation) {
-      const mainComponent = this.ANNOTATION_TO_DETAIL_MAIN_COMPONENT_MAP[annotation];
-      const leftComponent = this.ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP[annotation];
-
-      this.detailMainComponent = mainComponent || this.detailMainComponent;
-      this.detailLeftComponent = leftComponent || this.detailLeftComponent;
-    },
-    onTextDetailSearchBarOutput (searchResult) {
-      const { annotation } = searchResult;
-
-      if (annotation) {
+    interpretAnnotations (annotations) {
+      for (const annotation in annotations) {
         this.setAnnotationComponents(annotation);
-
-        this.$router.push(
-          this.text.readRoute({ query: { annotation } }),
-          { appendQuery: true }
-        );
       }
+    },
+    interpretSearchQuery (query) {
+      const searchResults = this.searchEngine.search(query);
+      const { lines } = this.text;
+
+      for (let i = 0; i < lines.length; i++) {
+        const textLine = lines[i];
+        const matchingSearchResults = searchResults.filter(({ refIndex }) => refIndex === i);
+
+        if (matchingSearchResults.length) {
+          const searchResult = matchingSearchResults.pop();
+
+          textLine.matches = searchResult.matches;
+          textLine.highlitKey = query;
+
+          // Make things slightly more efficient --
+          // we won't need to walk this element again.
+          searchResults.splice(i, 1);
+        } else {
+          textLine.matches = [];
+          textLine.highlitKey = null;
+        }
+      }
+    },
+    setAnnotationComponents (annotation) {
+      const annotationToComponent = (map, annotation) => {
+        let component = map[annotation];
+        return isFunction(component)
+          ? component(this)
+          : component;
+      };
+
+      this.detailLeftComponent = annotationToComponent(
+        this.ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP, annotation);
+      this.detailMainComponent = annotationToComponent(
+        this.ANNOTATION_TO_DETAIL_MAIN_COMPONENT_MAP, annotation);
     },
     onCtrlMenuItemClick (annotation) {
       const { text } = this;
 
-      this.text.annotations.push(
+      // Probably shouldn't be writing to apollo-managed prop..
+      this.textAnnotationRelations.push(
         new TextAnnotationRelation({
           text,
           annotation,
@@ -88,12 +133,32 @@ export default {
       e.preventDefault();
     }
   },
-  created () {
-    for (const annotation of Object.keys(this.annotations)) {
-      this.setAnnotationComponents(annotation);
+  watch: {
+    text (newText) {
+      if (newText) {
+        this.searchEngine.fuse.setCollection(newText.lines);
+
+        if (this.initialQuery) {
+          this.interpretSearchQuery(this.$store.state.query.current.q);
+          this.initialQuery = false;
+        }
+      }
+    },
+    '$store.state.query.current.q': debounce(function (currentQuery, oldQuery) {
+      console.log('INTERPRETING...', currentQuery);
+      this.interpretSearchQuery(currentQuery);
+    }, 10),
+    '$store.state.annotations.current' (currentAnnotations) {
+      this.interpretAnnotations(currentAnnotations);
+    }
+  },
+  mounted () {
+    // TODOL Better to process the search server side
+    if (this.$store.state.query.current.q && this.$apollo.queries.text.loading) {
+      this.initialQuery = true;
     }
   },
   components: {
-    TextDetailLayout
+    TextDetailSkeleton
   }
 };

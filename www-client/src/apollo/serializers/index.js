@@ -3,7 +3,8 @@ import {
   AuthorConnectionSerializer,
   TextConnectionSerializer,
   TextSearchResultConnectionSerializer,
-  TextAnnotationConnectionSerializer
+  TextAnnotationConnectionSerializer,
+  TextAnnotationRelationConnectionSerializer
 } from './text';
 
 // const TYPENAME_TO_MODEL_MAP = {};
@@ -14,5 +15,6 @@ export {
   AuthorConnectionSerializer,
   TextConnectionSerializer,
   TextSearchResultConnectionSerializer,
-  TextAnnotationConnectionSerializer
+  TextAnnotationConnectionSerializer,
+  TextAnnotationRelationConnectionSerializer
 };

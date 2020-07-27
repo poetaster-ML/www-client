@@ -12,7 +12,7 @@
 <script>
 import { TextSearchResult } from '@models';
 import {
-  HighlightedTextLineRead,
+  TextLineServerReadHighlit,
   TextLineRead
 } from './partials/line';
 export default {
@@ -27,7 +27,7 @@ export default {
   computed: {
     lineComponent () {
       return this.text.rawHighlight
-        ? HighlightedTextLineRead
+        ? TextLineServerReadHighlit
         : TextLineRead;
     },
     lines () {
@@ -38,7 +38,7 @@ export default {
   },
   components: {
     TextLineRead,
-    HighlightedTextLineRead
+    TextLineServerReadHighlit
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class='commentary-list-edit'>
-    <template v-for='(textAnnotationRelation, idx) in text.annotations'>
+    <template v-for='(textAnnotationRelation, idx) in textAnnotationRelations'>
       <Edit
         :textAnnotationRelation='textAnnotationRelation'
         :key='idx'

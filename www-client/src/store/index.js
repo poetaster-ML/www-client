@@ -8,5 +8,28 @@ export default new Vuex.Store({
   getters: {},
   mutations: {},
   actions: {},
-  modules: {}
+  modules: {
+    query: {
+      namespaced: true,
+      state: {
+        current: ''
+      },
+      mutations: {
+        setCurrent (state, current) {
+          state.current = current;
+        }
+      }
+    },
+    annotations: {
+      namespaced: true,
+      state: {
+        current: {}
+      },
+      mutations: {
+        setCurrent (state, current) {
+          state.current = current;
+        }
+      }
+    }
+  }
 });

@@ -78,10 +78,10 @@ query TextDetail($first:Int, $slug:String) {
             }
           }
         }
-        annotations: labels {
+        annotations {
           edges {
             commentary
-            textIndex
+            textStartIndex
             node {
               id
               value
@@ -121,6 +121,27 @@ query TextAnnotationsIndex($first:Int, $after:String) {
       node {
         id
         value
+      }
+    }
+  }
+}
+
+query TextAnnotationRelations($textSlug:String) {
+  textAnnotationRelations(textSlug: $textSlug) {
+    pageInfo { ...pageInfo }
+    edges {
+      cursor
+      node {
+        id
+
+        annotation {
+          id
+          value
+        }
+
+        commentary
+        textStartIndex
+        textEndIndex
       }
     }
   }

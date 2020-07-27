@@ -1,17 +1,15 @@
 <template>
-  <TextDetailLayout
+  <TextDetailSkeleton
     :text='text'
     :author='author'
-    :loading='$apollo.queries.text.loading'
-    :searchEngine='searchEngine'
-    @text-detail-search-bar-output='onTextDetailSearchBarOutput'>
+    :loading='$apollo.queries.text.loading'>
 
-    <template #detail-left>
-      <template v-if='detailLeftComponent'>
+    <template #detail-left v-if='detailLeftComponent'>
+      <template v-if='textAnnotationRelations.length'>
         <v-col style='flex-grow: 1'>
           <component
             :is='detailLeftComponent'
-            :text='text'
+            :textAnnotationRelations='textAnnotationRelations'
             @text-editor-text-change='onDetailLeftTextEditorTextChange'/>
         </v-col>
         <v-divider vertical/>
@@ -47,7 +45,7 @@
         </v-list>
       </v-menu>
     </template>
-  </TextDetailLayout>
+  </TextDetailSkeleton>
 </template>
 
 <script>
@@ -70,7 +68,11 @@ export default {
       [ANNOTATIONS.SYN]: TextSyntaxEdit
     },
     ANNOTATION_TO_DETAIL_LEFT_COMPONENT_MAP: {
-      [ANNOTATIONS.COM]: TextAnnotationCommentaryListEdit
+      [ANNOTATIONS.COM]: vm => {
+        if (vm.textAnnotationRelations.length) {
+          return TextAnnotationCommentaryListEdit;
+        }
+      }
     },
     textSelectionRange: {}
   }),

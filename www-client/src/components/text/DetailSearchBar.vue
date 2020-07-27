@@ -10,24 +10,35 @@
   </v-text-field>
 </template>
 <script>
-import { Text } from '@models';
+import { LASI } from '@/search';
 
 export default {
-  props: {
-    searchEngine: Object,
-    text: Text
-  },
-  data: vm => ({
-    query: ''
+  data: () => ({
+    engine: new LASI()
   }),
-  methods: {
-    onKeydownEnter (e) {
-      const searchResult = this.searchEngine.search(this.query);
-      this.$bubble('text-detail-search-bar-output', searchResult);
+  computed: {
+    query: {
+      set (q) {
+        const annotationResults = this.engine.search(q);
+
+        // Remove annotative syntax from the query...
+        q = LASI.redact(q);
+
+        this.$store.commit('annotations/setCurrent', annotationResults);
+        this.$store.commit('query/setCurrent', { q: q.trim() });
+      },
+      get () {
+        const { annotations, query } = this.$store.state;
+        const annotationString = Object.values(annotations.current).map(a => `annotation:${a}`).join(' ');
+        const queryString = query.current.q || '';
+        const completeString = annotationString ? annotationString + ' ' + queryString : queryString;
+        return completeString;
+      }
     }
   },
-  watch: {
-    query (query) {}
+  methods: {
+    onKeydownEnter () {
+    }
   }
 };
 </script>
