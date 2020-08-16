@@ -153,7 +153,11 @@ export default {
     }
   },
   mounted () {
-    // TODOL Better to process the search server side
+    // TODO: Better to process the initial text search server side.
+    // Of course this opens up a whole can of worms around unifying the interfaces of the
+    // client vs server search results. If their APIs and shape can't be identical then
+    // there should at least be an abstract interface so that interfacing components
+    // don't have to know which they're expecting.
     if (this.$store.state.query.current.q && this.$apollo.queries.text.loading) {
       this.initialQuery = true;
     }

@@ -1,2 +1,3 @@
 www-client/node_modules
 *.DS_Store
+*.terraform

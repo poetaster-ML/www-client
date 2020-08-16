@@ -50,5 +50,29 @@ module.exports = {
         }
       ]
     }
+  },
+
+  pluginOptions: {
+    s3Deploy: {
+      registry: undefined,
+      awsProfile: 'default',
+      overrideEndpoint: false,
+      region: 'us-east-1',
+      bucket: 'poets.house',
+      createBucket: false,
+      staticHosting: true,
+      staticIndexPage: 'index.html',
+      staticErrorPage: 'index.html',
+      assetPath: 'dist',
+      assetMatch: '**',
+      deployPath: '/',
+      acl: 'public-read',
+      pwa: false,
+      enableCloudfront: true,
+      cloudfrontId: 'E2K21GUDXQWQBC',
+      cloudfrontMatchers: '/index.html,/service-worker.js,/manifest.json',
+      pluginVersion: '4.0.0-rc3',
+      uploadConcurrency: 5
+    }
   }
 };

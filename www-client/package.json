@@ -5,9 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "lint": "vue-cli-service lint",
+    "deploy": "vue-cli-service s3-deploy"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -27,12 +28,14 @@
     "quill-delta": "4.2.1",
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.3",
+    "vue-cli-plugin-s3-deploy": "^4.0.0-rc4",
     "vue-router": "^3.0.3",
     "vuetify": "^2.0.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@mdi/font": "^4.4.95",
+    "@vue/cli": "^4.5.3",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-e2e-cypress": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
@@ -76,22 +79,6 @@
       "@vue/babel-preset-jsx"
     ]
   },
-  "stylint": {
-    "extends": "stylelint-config-recommended-scss",
-    "plugins": [
-      "stylelint-order"
-    ],
-    "rules": {
-      "indentation": 2,
-      "max-nesting-depth": 4,
-      "max-empty-lines": 2,
-      "color-hex-case": "lower",
-      "declaration-colon-space-after": "always",
-      "declaration-block-semicolon-newline-after": "always",
-      "no-descending-specificity": null,
-      "order/properties-alphabetical-order": true
-    }
-  },
   "jest": {
     "moduleFileExtensions": [
       "js",
@@ -121,5 +108,21 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
+  },
+  "stylint": {
+    "extends": "stylelint-config-recommended-scss",
+    "plugins": [
+      "stylelint-order"
+    ],
+    "rules": {
+      "indentation": 2,
+      "max-nesting-depth": 4,
+      "max-empty-lines": 2,
+      "color-hex-case": "lower",
+      "declaration-colon-space-after": "always",
+      "declaration-block-semicolon-newline-after": "always",
+      "no-descending-specificity": null,
+      "order/properties-alphabetical-order": true
+    }
   }
 }
